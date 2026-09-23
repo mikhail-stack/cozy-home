@@ -1,4 +1,8 @@
+"use client";
+
 import Link from "next/link";
+import { useCartStore, selectCartCount } from "@/store/cart.store";
+import { useUIStore } from "@/store/ui.store";
 
 const navLinks = [
   { href: "/", label: "Главная" },
@@ -6,6 +10,9 @@ const navLinks = [
 ];
 
 export function Header() {
+  const cartCount = useCartStore(selectCartCount);
+  const openCart = useUIStore((state) => state.openCart);
+
   return (
     <header className="border-b border-soot bg-limestone">
       <div className="flex items-center justify-between gap-20 px-20 py-16">
@@ -25,10 +32,12 @@ export function Header() {
           ))}
         </nav>
 
-        {/* Счётчик товаров и открытие drawer подключаются к cart.store / ui.store в пункте 3 плана */}
-        <div
+        {/* Открывает drawer корзины (ui.store) — сам drawer появится в пункте 5 плана */}
+        <button
+          type="button"
+          onClick={openCart}
           className="flex items-center gap-6 font-gp text-body-sm tracking-body-sm text-soot"
-          aria-label="Корзина: 0 товаров"
+          aria-label={`Корзина: ${cartCount} товаров`}
         >
           <svg
             width="16"
@@ -42,8 +51,8 @@ export function Header() {
             <path d="M6 8h12l-1 12H7L6 8Z" />
             <path d="M9 8V6a3 3 0 0 1 6 0v2" />
           </svg>
-          <span>0</span>
-        </div>
+          <span>{cartCount}</span>
+        </button>
       </div>
     </header>
   );
