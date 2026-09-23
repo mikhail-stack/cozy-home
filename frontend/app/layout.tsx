@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { inter, playfair } from "@/lib/fonts";
+import { inter } from "@/lib/fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import "./globals.css";
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ru" className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="ru" className={inter.variable}>
       <body>
         <Header />
         <main>{children}</main>

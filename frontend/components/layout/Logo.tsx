@@ -1,12 +1,24 @@
-// Иконка домика + название шрифтом Playfair Display (docs/DESIGN.md).
+// Монограмма — квадратная hairline-рамка (без скруглений, docs/DESIGN.md)
+// с буквой по "The Letter System" вместо отдельно нарисованной иконки.
 export function Logo({ className = "" }: { className?: string }) {
   return (
-    <span className={`inline-flex items-center gap-8 ${className}`}>
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} aria-hidden="true">
-        <path d="M4 11.5 12 4l8 7.5" strokeLinecap="round" strokeLinejoin="round" />
-        <path d="M6 10v9h12v-9" strokeLinecap="round" strokeLinejoin="round" />
+    <span className={`inline-flex items-center gap-10 ${className}`}>
+      <svg width="32" height="32" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="0.75" y="0.75" width="30.5" height="30.5" fill="none" stroke="currentColor" strokeWidth={1.5} />
+        <text
+          x="50%"
+          y="53%"
+          dominantBaseline="middle"
+          textAnchor="middle"
+          fill="currentColor"
+          className="font-gp"
+          fontWeight={400}
+          fontSize={18}
+        >
+          C
+        </text>
       </svg>
-      <span className="font-heading text-heading-sm text-ink">Cozy Home</span>
+      <span className="font-gp text-subheading tracking-subheading">Cozy Home</span>
     </span>
   );
 }
