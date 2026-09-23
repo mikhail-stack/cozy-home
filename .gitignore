@@ -1,0 +1,19 @@
+# Зависимости и сборки (дублируется в frontend/.gitignore и backend/.gitignore
+# на случай, если каталоги будут инициализированы как отдельные репозитории)
+node_modules/
+dist/
+.next/
+out/
+
+# Переменные окружения
+.env
+.env.*.local
+
+# ОС / IDE
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+*.tsbuildinfo
+
+# Docker
+docker-compose.override.yml

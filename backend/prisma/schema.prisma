@@ -1,0 +1,12 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Модели (User, Product, Order, OrderItem, CartItem) будут добавлены
+// на этапе реализации согласно разделу 11 ТЗ.
