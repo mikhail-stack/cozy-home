@@ -10,46 +10,36 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-soot bg-limestone">
-      <div className="grid gap-32 px-20 py-32 sm:grid-cols-3">
-        <div className="flex flex-col gap-7">
-          <span className="font-gp text-caption tracking-caption uppercase text-soot">Магазин</span>
+    <footer className="bg-beige">
+      <div className="grid gap-32 px-24 py-40 sm:grid-cols-3">
+        <div className="flex flex-col gap-10">
+          <span className="text-caption font-medium uppercase text-ink">Магазин</span>
           {shopLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="font-gp text-caption tracking-caption text-soot hover:underline"
-            >
+            <a key={link.href} href={link.href} className="text-caption text-ink hover:text-forest">
               {link.label}
             </a>
           ))}
         </div>
 
-        <div className="flex flex-col gap-7">
-          <span className="font-gp text-caption tracking-caption uppercase text-soot">Контакты</span>
-          <a
-            href="tel:+380000000000"
-            className="font-gp text-caption tracking-caption text-soot hover:underline"
-          >
+        <div className="flex flex-col gap-10">
+          <span className="text-caption font-medium uppercase text-ink">Контакты</span>
+          <a href="tel:+380000000000" className="text-caption text-ink hover:text-forest">
             +380 00 000 00 00
           </a>
-          <a
-            href="mailto:hello@cozyhome.ua"
-            className="font-gp text-caption tracking-caption text-soot hover:underline"
-          >
+          <a href="mailto:hello@cozyhome.ua" className="text-caption text-ink hover:text-forest">
             hello@cozyhome.ua
           </a>
         </div>
 
-        <div className="flex flex-col gap-7">
-          <span className="font-gp text-caption tracking-caption uppercase text-soot">Мы в соцсетях</span>
+        <div className="flex flex-col gap-10">
+          <span className="text-caption font-medium uppercase text-ink">Мы в соцсетях</span>
           {socialLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               target="_blank"
               rel="noreferrer"
-              className="font-gp text-caption tracking-caption text-soot hover:underline"
+              className="text-caption text-ink hover:text-forest"
             >
               {link.label}
             </a>
@@ -57,7 +47,7 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-soot px-20 py-16 text-center font-gp text-caption tracking-caption text-soot">
+      <div className="border-t border-terracotta/50 px-24 py-16 text-center text-caption text-ink">
         © {new Date().getFullYear()} Cozy Home. Все права защищены.
       </div>
     </footer>

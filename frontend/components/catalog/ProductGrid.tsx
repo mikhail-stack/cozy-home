@@ -5,20 +5,19 @@ interface ProductGridProps {
   products: Product[];
 }
 
-// Каждая карточка рисует свою верхнюю и левую грань (border-t/border-l),
-// а контейнер замыкает правую и нижнюю — так hairline-сетка не задваивается
-// на стыках и не зависит от числа колонок на разных брейкпоинтах.
+// Карточки — отдельные Surface-поверхности с отступом между собой
+// (docs/DESIGN.md), не сетка со швами, как в прошлой версии системы.
 export function ProductGrid({ products }: ProductGridProps) {
   if (products.length === 0) {
     return (
-      <p className="py-32 text-center font-gp text-body-sm tracking-body-sm text-soot">
+      <p className="py-32 text-center text-body text-ink/70">
         В этой категории пока нет товаров.
       </p>
     );
   }
 
   return (
-    <div className="grid grid-cols-2 border-r border-b border-soot sm:grid-cols-3 lg:grid-cols-5">
+    <div className="grid grid-cols-2 gap-24 sm:grid-cols-3 lg:grid-cols-4">
       {products.map((product) => (
         <ProductCard key={product.id} product={product} />
       ))}

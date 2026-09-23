@@ -10,9 +10,9 @@ interface ProductCardProps {
   product: Product;
 }
 
-// Фото товара пока заменено буквенным лейблом — приём "The Letter System"
-// из docs/DESIGN.md. Реальные фото появятся с загрузкой в Cloudinary
-// (backend, пункт 16 плана).
+// Фото товара пока заменено буквенной заглушкой на Beige-фоне
+// (docs/DESIGN.md, раздел «Фото»). Реальные фото появятся с загрузкой
+// в Cloudinary (backend, пункт 16 плана).
 export function ProductCard({ product }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
   const [justAdded, setJustAdded] = useState(false);
@@ -24,22 +24,20 @@ export function ProductCard({ product }: ProductCardProps) {
   };
 
   return (
-    <div className="flex flex-col border-t border-l border-soot">
+    <div className="flex flex-col overflow-hidden rounded-lg bg-surface shadow-sm">
       <Link href={`/products/${product.id}`} className="flex flex-col">
-        <div className="flex aspect-square items-center justify-center bg-chalk">
-          <span className="font-gp text-heading tracking-heading text-soot">
+        <div className="flex aspect-square items-center justify-center bg-beige">
+          <span className="font-heading text-heading text-forest">
             {product.name.charAt(0).toUpperCase()}
           </span>
         </div>
-        <div className="flex flex-col items-center gap-4 px-13 py-13 text-center">
-          <span className="font-gp text-body-sm tracking-body-sm text-soot">{product.name}</span>
-          <span className="font-gp text-body-sm tracking-body-sm text-soot">
-            {product.price} грн
-          </span>
+        <div className="flex flex-col items-center gap-4 px-16 py-14 text-center">
+          <span className="text-body text-ink">{product.name}</span>
+          <span className="text-body font-medium text-forest">{product.price} грн</span>
         </div>
       </Link>
 
-      <Button variant="link" onClick={handleAddToCart} className="border-t border-soot py-10">
+      <Button variant="primary" onClick={handleAddToCart} className="mx-16 mb-16 rounded-md">
         {justAdded ? "✓ Добавлено" : "В корзину"}
       </Button>
     </div>

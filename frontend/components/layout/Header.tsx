@@ -15,18 +15,18 @@ export function Header() {
   const openCart = useUIStore((state) => state.openCart);
 
   return (
-    <header className="border-b border-soot bg-limestone">
-      <div className="flex items-center justify-between gap-20 px-20 py-16">
-        <Link href="/" className="text-soot">
+    <header className="border-b border-beige bg-cream">
+      <div className="flex items-center justify-between gap-20 px-24 py-16">
+        <Link href="/">
           <Logo />
         </Link>
 
-        <nav className="flex items-center gap-20">
+        <nav className="flex items-center gap-24">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="font-gp text-body-sm tracking-body-sm text-soot hover:underline"
+              className="text-body text-ink hover:text-forest"
             >
               {link.label}
             </Link>
@@ -37,7 +37,7 @@ export function Header() {
         <button
           type="button"
           onClick={openCart}
-          className="flex items-center gap-6 font-gp text-body-sm tracking-body-sm text-soot"
+          className="flex items-center gap-6 rounded-full bg-beige px-12 py-8 text-body text-ink hover:bg-terracotta/60"
           aria-label={`Корзина: ${cartCount} товаров`}
         >
           <svg
@@ -52,7 +52,7 @@ export function Header() {
             <path d="M6 8h12l-1 12H7L6 8Z" />
             <path d="M9 8V6a3 3 0 0 1 6 0v2" />
           </svg>
-          <span>{cartCount}</span>
+          <span className="font-medium text-forest">{cartCount}</span>
         </button>
       </div>
     </header>

@@ -1,11 +1,17 @@
-import { Inter } from "next/font/google";
+import { Inter, Playfair_Display } from "next/font/google";
 
-// GP из дизайн-системы недоступен как веб-шрифт (docs/DESIGN.md).
-// Inter выбран как замена: поддерживает кириллицу и вес 400,
-// который единственный используется во всей системе.
+// Inter — интерфейс и текст (вес 400/500), поддерживает кириллицу.
 export const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  weight: ["400"],
+  weight: ["400", "500"],
   variable: "--font-inter",
+  display: "swap",
+});
+
+// Playfair Display — только заголовки (docs/DESIGN.md), тоже с кириллицей.
+export const playfair = Playfair_Display({
+  subsets: ["latin", "cyrillic"],
+  weight: ["600", "700"],
+  variable: "--font-playfair",
   display: "swap",
 });

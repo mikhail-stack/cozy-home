@@ -1,22 +1,22 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "link" | "solid";
+type ButtonVariant = "primary" | "outline";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
 }
 
-// Текстовая ссылка — основной паттерн взаимодействия в системе (docs/DESIGN.md).
-// variant="solid" (Graphite-заливка) — редкое исключение, максимум одна на страницу.
+// Primary — заливка Forest, единственный по-настоящему "активный" цвет
+// на экране. Outline — второстепенные действия (docs/DESIGN.md).
 const variantClasses: Record<ButtonVariant, string> = {
-  link: "bg-transparent text-soot underline-offset-4 hover:underline",
-  solid: "bg-graphite text-chalk px-16 py-10 hover:opacity-90",
+  primary: "bg-forest text-cream shadow-sm hover:opacity-90",
+  outline: "border border-forest text-forest hover:bg-beige",
 };
 
-export function Button({ variant = "link", className = "", ...props }: ButtonProps) {
+export function Button({ variant = "primary", className = "", ...props }: ButtonProps) {
   return (
     <button
-      className={`font-gp text-body-sm tracking-body-sm rounded-none transition-opacity cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${className}`}
+      className={`rounded-md px-16 py-10 text-body font-medium transition-opacity cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${className}`}
       {...props}
     />
   );

@@ -9,7 +9,7 @@ interface ModalProps {
   children: ReactNode;
 }
 
-// Без теней и скруглений — глубина через полупрозрачный Soot-оверлей и hairline-бордер (docs/DESIGN.md).
+// Surface-карточка с крупным скруглением и мягкой тенью (docs/DESIGN.md).
 export function Modal({ isOpen, onClose, children }: ModalProps) {
   useEffect(() => {
     if (!isOpen) return;
@@ -26,11 +26,11 @@ export function Modal({ isOpen, onClose, children }: ModalProps) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-soot/40"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-ink/40"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-[480px] mx-16 rounded-none border border-soot bg-chalk p-16"
+        className="w-full max-w-[480px] mx-16 rounded-lg bg-surface p-24 shadow-md"
         onClick={(event) => event.stopPropagation()}
       >
         {children}
