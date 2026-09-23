@@ -4,8 +4,8 @@
 
 ## Frontend
 
-- [ ] Базовые UI-компоненты и токены дизайн-системы
-- [ ] Layout: Header, Footer, корневой layout
+- [x] Базовые UI-компоненты и токены дизайн-системы
+- [x] Layout: Header, Footer, корневой layout
 - [ ] Zustand-сторы: cart, ui, auth
 - [ ] Главная `/`: Hero, фильтр категорий, сетка товаров
 - [ ] Виджет корзины (drawer)
@@ -44,3 +44,6 @@
 - Подготовлена структура проекта (frontend/backend), зависимости, база конфигов, `docker-compose.yml`
 - Добавлены `docs/architecture.md`, `docs/DESIGN.md`, `CLAUDE.md`, `docs/plan.md`
 - Дизайн-токены из DESIGN.md подключены в `frontend/app/globals.css`
+- Инициализирован git-репозиторий, сделан первый коммит
+- Пункт плана 1: подключён шрифт (Inter вместо GP, `frontend/lib/fonts.ts`), базовые стили `body`, компоненты `Button`, `Input`, `Modal` в `frontend/components/ui/`
+- Пункт плана 2: `Header`/`Footer` (`frontend/components/layout/`) и корневой `app/layout.tsx`; поправлен `eslint.config.mjs` под flat-config Next.js 16 (`eslint-config-next/core-web-vitals` + `/typescript` вместо устаревшего `FlatCompat`); `npm install`, `npm run lint` и `npm run build` в `frontend/` проходят чисто
