@@ -1,8 +1,5 @@
 // Hero без фото — реальной предметной съёмки (docs/DESIGN.md: full-bleed
-// product photography) пока нет. Пробовали автоматический подбор через
-// Pixabay (lib/use-pixabay-image.ts) — по общим ключевым словам выдача
-// нерелевантна (например, "scandinavian interior" вернул салон автомобиля),
-// решили не использовать вместо реального текстового Hero.
+// product photography) пока нет, заменять её заглушкой-картинкой не стали.
 export function Hero() {
   return (
     <section className="flex flex-col items-center justify-center gap-16 bg-chalk px-20 py-143 text-center">
