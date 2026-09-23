@@ -11,8 +11,10 @@ interface ProductCardProps {
 }
 
 // Фото товара пока заменено буквенным лейблом — приём "The Letter System"
-// из docs/DESIGN.md. Реальные фото появятся с загрузкой в Cloudinary
-// (backend, пункт 16 плана).
+// из docs/DESIGN.md. Пробовали подключить бесплатный сток по ключевым
+// словам (LoremFlickr), но сервис перестал отвечать (401 на все запросы) —
+// откатились. Реальные фото появятся с загрузкой в Cloudinary (backend,
+// пункт 16 плана).
 export function ProductCard({ product }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
   const [justAdded, setJustAdded] = useState(false);

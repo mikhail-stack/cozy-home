@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useCartStore, selectCartCount } from "@/store/cart.store";
 import { useUIStore } from "@/store/ui.store";
+import { Logo } from "@/components/layout/Logo";
 
 const navLinks = [
   { href: "/", label: "Главная" },
@@ -16,8 +17,8 @@ export function Header() {
   return (
     <header className="border-b border-soot bg-limestone">
       <div className="flex items-center justify-between gap-20 px-20 py-16">
-        <Link href="/" className="font-gp text-subheading tracking-subheading text-soot">
-          Cozy Home
+        <Link href="/" className="text-soot">
+          <Logo />
         </Link>
 
         <nav className="flex items-center gap-20">
