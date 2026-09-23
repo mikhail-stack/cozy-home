@@ -1,9 +1,8 @@
 // Hero без фото — реальной предметной съёмки (docs/DESIGN.md: full-bleed
-// product photography) пока нет. Пробовали подключить бесплатный сток по
-// ключевым словам (LoremFlickr), сервис оказался нерабочим (401 на все
-// запросы), а полностью случайные фото без темы (Picsum и т.п.) рискуют
-// внести в монохромную систему случайный цвет — решили не подставлять
-// заглушку-картинку вместо реальной.
+// product photography) пока нет. Пробовали автоматический подбор через
+// Pixabay (lib/use-pixabay-image.ts) — по общим ключевым словам выдача
+// нерелевантна (например, "scandinavian interior" вернул салон автомобиля),
+// решили не использовать вместо реального текстового Hero.
 export function Hero() {
   return (
     <section className="flex flex-col items-center justify-center gap-16 bg-chalk px-20 py-143 text-center">

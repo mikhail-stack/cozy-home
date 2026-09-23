@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        // Временный источник фото до подключения Cloudinary — см. app/api/pixabay/route.ts
+        protocol: "https",
+        hostname: "pixabay.com",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.pixabay.com",
+      },
     ],
   },
 };
