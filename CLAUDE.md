@@ -33,6 +33,7 @@
 - Telegram-бот — часть `backend` (`src/modules/telegram`), отдельным процессом/сервисом не выносить.
 - Монорепо без workspaces (npm/pnpm workspaces, Turborepo и т.п. не используем) — `frontend/` и `backend/` полностью независимы, каждый ставится и собирается отдельно.
 - В обоих пакетах настроен Prettier (`.prettierrc.json`, `.prettierignore`) — перед коммитом прогонять `npm run format` в изменённом пакете; `eslint-config-prettier` уже отключает конфликтующие стилистические правила ESLint.
+- В обоих пакетах включён типизированный ESLint (`typescript-eslint` `recommendedTypeChecked` + `projectService`) — ловит реальные баги вроде забытого `await`/floating promises, не только синтаксис. Область действия — только файлы внутри `tsconfig.json` (`src/**/*.ts` в backend, `**/*.{ts,tsx}` во frontend); корневые `*.config.mjs` под это не подпадают. При появлении `no-unsafe-*` ошибок на внешних API (`fetch`, `JSON.parse` и т.п.) — приводить тип явным `as`, а не неявным присваиванием.
 
 ## Прочее
 

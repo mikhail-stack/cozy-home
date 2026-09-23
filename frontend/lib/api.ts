@@ -48,7 +48,7 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
   }
 
   if (!response.ok) {
-    const body: { message?: string } | null = await response.json().catch(() => null);
+    const body = (await response.json().catch(() => null)) as { message?: string } | null;
     throw new ApiError(response.status, body?.message ?? `Ошибка запроса: ${response.status}`);
   }
 
