@@ -6,4 +6,5 @@ export interface Product {
   category: ProductCategory;
   price: number;
   description: string;
+  inStock: boolean;
 }

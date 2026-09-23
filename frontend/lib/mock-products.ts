@@ -9,6 +9,7 @@ export const PRODUCTS: Product[] = [
     category: "candles",
     price: 320,
     description: "Ручная работа из соевого воска, аромат лаванды и ванили, время горения — до 40 часов.",
+    inStock: true,
   },
   {
     id: "candles-2",
@@ -16,6 +17,7 @@ export const PRODUCTS: Product[] = [
     category: "candles",
     price: 580,
     description: "Аромадиффузор с деревянными палочками, свежий хвойный аромат для дома.",
+    inStock: true,
   },
   {
     id: "candles-3",
@@ -23,6 +25,7 @@ export const PRODUCTS: Product[] = [
     category: "candles",
     price: 180,
     description: "12 чайных свечей без запаха — для декора и уютного вечера.",
+    inStock: true,
   },
 
   {
@@ -31,6 +34,7 @@ export const PRODUCTS: Product[] = [
     category: "textile",
     price: 1200,
     description: "Плед из 100% льна, мягкий и лёгкий — идеален для дивана или кровати.",
+    inStock: true,
   },
   {
     id: "textile-2",
@@ -38,6 +42,7 @@ export const PRODUCTS: Product[] = [
     category: "textile",
     price: 450,
     description: "Наволочка из хлопка с ботанической вышивкой ручной работы.",
+    inStock: true,
   },
   {
     id: "textile-3",
@@ -45,6 +50,7 @@ export const PRODUCTS: Product[] = [
     category: "textile",
     price: 280,
     description: "Вафельное полотенце из хлопка — хорошо впитывает влагу и быстро сохнет.",
+    inStock: true,
   },
 
   {
@@ -53,6 +59,7 @@ export const PRODUCTS: Product[] = [
     category: "kitchen",
     price: 390,
     description: "Кружка ручной работы из керамики — каждая в своём неповторимом виде.",
+    inStock: true,
   },
   {
     id: "kitchen-2",
@@ -60,6 +67,7 @@ export const PRODUCTS: Product[] = [
     category: "kitchen",
     price: 860,
     description: "Набор из трёх керамических мисок разного размера в спокойных тонах.",
+    inStock: true,
   },
   {
     id: "kitchen-3",
@@ -67,6 +75,7 @@ export const PRODUCTS: Product[] = [
     category: "kitchen",
     price: 640,
     description: "Разделочная доска из массива дерева — для кухни и сервировки.",
+    inStock: true,
   },
 
   {
@@ -75,6 +84,7 @@ export const PRODUCTS: Product[] = [
     category: "decor",
     price: 1800,
     description: "Настенное зеркало в раме из натурального дерева.",
+    inStock: false,
   },
   {
     id: "decor-2",
@@ -82,6 +92,7 @@ export const PRODUCTS: Product[] = [
     category: "decor",
     price: 320,
     description: "Небольшое кашпо из терракоты для комнатных растений.",
+    inStock: true,
   },
   {
     id: "decor-3",
@@ -89,5 +100,6 @@ export const PRODUCTS: Product[] = [
     category: "decor",
     price: 220,
     description: "Постер А3 в минималистичном стиле — лес в приглушённых тонах.",
+    inStock: true,
   },
 ];

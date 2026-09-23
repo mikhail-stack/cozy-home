@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/Button";
 
 // Проверка логина/пароля и редирект по роли (user → "/", admin → "/admin",
 // неверные данные → сообщение) — вместе с Auth-модулем backend
-// (пункт 15 плана, docs/cozy-home-tz.md раздел 6).
+// (пункт 15 плана, docs/cozy-home-tz.md раздел 6). После успешного входа
+// сюда же встанет перенос гостевой корзины: cartStore.replaceItems(
+// mergeCartItems(cartStore.items, serverCart)) — см. lib/merge-cart.ts.
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

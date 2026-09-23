@@ -12,12 +12,15 @@ interface CartState {
   addItem: (product: Product) => void;
   removeItem: (productId: string) => void;
   setQuantity: (productId: string, quantity: number) => void;
+  replaceItems: (items: CartItem[]) => void;
   clear: () => void;
 }
 
 // Корзина гостя хранится в localStorage (persist). Для авторизованных
 // пользователей источником истины станет сервер — см. docs/architecture.md,
-// раздел 5, и lib/merge-cart.ts (появится вместе с auth-эндпоинтами).
+// раздел 5, и lib/merge-cart.ts. `replaceItems` — точка входа для
+// результата слияния после логина (вызов появится вместе с Auth-модулем
+// backend, пункт 15 плана).
 export const useCartStore = create<CartState>()(
   persist(
     (set) => ({
@@ -46,6 +49,7 @@ export const useCartStore = create<CartState>()(
             .map((item) => (item.product.id === productId ? { ...item, quantity } : item))
             .filter((item) => item.quantity > 0),
         })),
+      replaceItems: (items) => set({ items }),
       clear: () => set({ items: [] }),
     }),
     { name: "cozy-home-cart" }
