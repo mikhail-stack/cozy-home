@@ -9,23 +9,26 @@ interface CategoryFilterProps<T extends string> {
   onSelect: (value: T) => void;
 }
 
-// Текстовые ссылки вместо скруглённых "таблеток" из ТЗ — в системе
-// docs/DESIGN.md радиус запрещён везде, кроме инпутов; активное состояние
-// показывается подчёркиванием (см. компонент "Language Toggle" в DESIGN.md).
+// Пилюли — единственная форма для кнопок/тегов в системе ("Use 9999px
+// radius on all buttons, tags, and pill controls", docs/DESIGN.md).
+// Активная категория — Cobalt Ink: "active state" входит в список из
+// трёх разрешённых применений акцента.
 export function CategoryFilter<T extends string>({
   categories,
   selected,
   onSelect,
 }: CategoryFilterProps<T>) {
   return (
-    <div className="flex flex-wrap items-center gap-20 border-b border-soot pb-16">
+    <div className="flex flex-wrap items-center gap-8">
       {categories.map((category) => (
         <button
           key={category.value}
           type="button"
           onClick={() => onSelect(category.value)}
-          className={`font-gp text-body-sm tracking-body-sm text-soot ${
-            selected === category.value ? "underline underline-offset-4" : "hover:underline"
+          className={`rounded-full px-24 py-8 font-lunar text-body-sm tracking-body-sm font-medium transition-colors ${
+            selected === category.value
+              ? "bg-cobalt-ink text-canvas-white"
+              : "bg-ash text-obsidian hover:bg-obsidian/10"
           }`}
         >
           {category.label}

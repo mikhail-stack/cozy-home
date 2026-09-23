@@ -1,22 +1,25 @@
 import type { ButtonHTMLAttributes } from "react";
 
-type ButtonVariant = "link" | "solid";
+type ButtonVariant = "primary" | "ghost";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
 }
 
-// Текстовая ссылка — основной паттерн взаимодействия в системе (docs/DESIGN.md).
-// variant="solid" (Graphite-заливка) — редкое исключение, максимум одна на страницу.
+// Primary CTA — единственная заливка цветом во всей системе (Cobalt Ink).
+// Ghost Button — второй элемент "двухкнопочного" паттерна, всегда рядом
+// с Primary CTA (docs/DESIGN.md, компоненты Primary CTA Button / Ghost
+// Button). Оба — pill (radius 9999px), другой формы для кнопок в системе
+// не предусмотрено.
 const variantClasses: Record<ButtonVariant, string> = {
-  link: "bg-transparent text-soot underline-offset-4 hover:underline",
-  solid: "bg-graphite text-chalk px-16 py-10 hover:opacity-90",
+  primary: "bg-cobalt-ink text-canvas-white hover:opacity-90",
+  ghost: "bg-transparent text-obsidian border border-obsidian hover:bg-ash",
 };
 
-export function Button({ variant = "link", className = "", ...props }: ButtonProps) {
+export function Button({ variant = "primary", className = "", ...props }: ButtonProps) {
   return (
     <button
-      className={`font-gp text-body-sm tracking-body-sm rounded-none transition-opacity cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${className}`}
+      className={`rounded-full px-24 py-12 font-lunar text-body-sm tracking-body-sm font-medium transition-colors cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 ${variantClasses[variant]} ${className}`}
       {...props}
     />
   );

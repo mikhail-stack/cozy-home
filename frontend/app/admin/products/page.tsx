@@ -50,16 +50,16 @@ export default function AdminProductsPage() {
   return (
     <div className="flex flex-col gap-24">
       <div className="flex items-center justify-between">
-        <h1 className="font-gp text-subheading tracking-subheading text-soot">Товары</h1>
-        <Button variant="solid" onClick={openCreate}>
+        <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">Товары</h1>
+        <Button variant="primary" onClick={openCreate}>
           Добавить товар
         </Button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse font-gp text-body-sm tracking-body-sm text-soot">
+        <table className="w-full border-collapse font-lunar text-body-sm tracking-body-sm text-obsidian">
           <thead>
-            <tr className="border-b border-soot text-left">
+            <tr className="border-b border-ash text-left">
               <th className="py-8 pr-16">Фото</th>
               <th className="py-8 pr-16">Название</th>
               <th className="py-8 pr-16">Категория</th>
@@ -70,9 +70,9 @@ export default function AdminProductsPage() {
           </thead>
           <tbody>
             {products.map((product) => (
-              <tr key={product.id} className="border-b border-soot">
+              <tr key={product.id} className="border-b border-ash">
                 <td className="py-8 pr-16">
-                  <div className="flex h-[40px] w-[40px] items-center justify-center bg-chalk">
+                  <div className="flex h-[40px] w-[40px] items-center justify-center bg-bone">
                     {product.name.charAt(0).toUpperCase()}
                   </div>
                 </td>

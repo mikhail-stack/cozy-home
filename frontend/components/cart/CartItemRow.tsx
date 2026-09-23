@@ -7,27 +7,29 @@ interface CartItemRowProps {
   item: CartItem;
 }
 
-// Фото — буквенная заглушка, как и в каталоге (docs/DESIGN.md).
+// Ash-разделитель между строками — для функционального списка (в отличие
+// от маркетинговых карточек) лёгкая граница оставлена ради читаемости,
+// аналогично таблицам в админке.
 export function CartItemRow({ item }: CartItemRowProps) {
   const setQuantity = useCartStore((state) => state.setQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
   return (
-    <div className="flex gap-12 border-b border-soot px-20 py-16">
-      <div className="flex h-[64px] w-[64px] shrink-0 items-center justify-center bg-chalk">
-        <span className="font-gp text-subheading text-soot">
+    <div className="flex gap-12 border-b border-ash px-24 py-16">
+      <div className="flex h-[64px] w-[64px] shrink-0 items-center justify-center bg-bone">
+        <span className="font-lunar text-subheading text-obsidian">
           {item.product.name.charAt(0).toUpperCase()}
         </span>
       </div>
 
       <div className="flex flex-1 flex-col gap-4">
-        <span className="font-gp text-body-sm tracking-body-sm text-soot">{item.product.name}</span>
-        <span className="font-gp text-body-sm tracking-body-sm text-soot">
+        <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">{item.product.name}</span>
+        <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">
           {item.product.price} грн
         </span>
 
         <div className="mt-4 flex items-center gap-16">
-          <div className="flex items-center gap-8 font-gp text-body-sm tracking-body-sm text-soot">
+          <div className="flex items-center gap-8 font-lunar text-body-sm tracking-body-sm text-obsidian">
             <button
               type="button"
               onClick={() => setQuantity(item.product.id, item.quantity - 1)}
@@ -48,7 +50,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
           <button
             type="button"
             onClick={() => removeItem(item.product.id)}
-            className="font-gp text-caption tracking-caption text-soot hover:underline"
+            className="font-lunar text-caption tracking-caption text-stone hover:underline"
           >
             Удалить
           </button>

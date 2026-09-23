@@ -1,47 +1,51 @@
-# UY Studio — Style Reference
-> Monastic stone gallery — a quiet concrete-walled space where perfume bottles sit on white plinths, lit by one weight-400 voice and four warm grays.
+# Nornorm — Style Reference
+> Scandinavian showroom, cobalt punctuation — a white-walled furniture gallery where one deep blue stroke cuts through warm bone and ink.
 
 **Theme:** light
 
 Source measurements are normalized; roles and recommendations are interpreted. Font summary lists are independent, not paired by position. HTML examples are reconstructions, not source components.
 
-UY operates as a monastic gallery: four warm grays, one weight of type, zero ornament. The entire interface speaks in a single 400-weight voice from 13px captions to 48px display lines, letting whitespace and grid alignment do what color and weight would in a louder system. The palette is almost geological — a limestone canvas, soot text, chalk surfaces, and a single graphite for the rare dark button — all warm-tinted to harmonize with the raw concrete and weathered plaster in the photography. Products are treated as still-life objects on white plinths, presented full-bleed against textured walls with no decorative chrome, UI patterns, or color to compete with the objects themselves.
+Nornorm's visual system is a near-monochromatic Scandinavian showroom: a white canvas warmed by a bone surface, a single deep cobalt as the only chromatic voice, and a custom geometric typeface (Lunar) tracked tight at -0.03em across every size. The discipline is rationed color — the cobalt appears only on the logo, the primary CTA, and the active state, everything else lives in grayscale. Photography carries the brand's emotional weight: full-bleed editorial interiors, warm leather textures, sculptural paper-craft vignettes, and living office scenes do the storytelling so the interface can stay quiet. Components are flat, pill-shaped, and borderless — a cobalt-filled button next to a dark ghost button, no shadows, no gradients, no decoration beyond generous whitespace and a single accent.
 
 ## Tokens — Colors
 
 | Name | Value | Token | Role |
 |------|-------|-------|------|
-| Soot | `#24241f` | `--color-soot` | Primary text, all icon strokes, hairline borders, nav links, footer text — the single dark voice of the system |
-| Limestone | `#d1d3cf` | `--color-limestone` | Page canvas, announcement bar, nav background — the warm-tinted near-gray that replaces white as the system's base tone |
-| Chalk | `#e5e5e5` | `--color-chalk` | Secondary surface, subtle borders, product photo backgrounds — a slightly cooler neutral for layering atop Limestone |
-| Graphite | `#333333` | `--color-graphite` | Dark button fill — the only filled surface in the system, used sparingly for a single tonal shift from the Soot text |
+| Canvas White | `#ffffff` | `--color-canvas-white` | Page background, card surfaces, button text on cobalt, nav background, image backgrounds |
+| Bone | `#f1efe9` | `--color-bone` | Warm off-white surface for section bands, feature card panels, and soft contrast zones against pure white |
+| Ash | `#ececec` | `--color-ash` | Subtle elevated surface and neutral button fill for low-emphasis controls |
+| Stone | `#6a6a6a` | `--color-stone` | Secondary body text, helper copy, nav muted labels, and dividers — the warm mid-gray that gives body text hierarchy without competing with the brand accent |
+| Graphite | `#333333` | `--color-graphite` | Hairline borders and structural dividers |
+| Ink | `#1f1d1e` | `--color-ink` | Slightly warm near-black for body and heading text — a softer alternative to pure black that matches the warm bone surface |
+| Obsidian | `#000000` | `--color-obsidian` | Primary text, nav text, strong borders, and the ghost button outline — the typographic workhorse |
+| Cobalt Ink | `#1e37a0` | `--color-cobalt-ink` | Violet outline accent for tags, dividers, and focused UI edges. Do not promote it to the primary CTA color |
 
 ## Tokens — Typography
 
-### GP — Universal typeface — used for nav, body, headings, buttons, and footer at weight 400 only. The single-weight constraint is the signature: no bold, no light, no medium. Hierarchy comes from size (13→48px) and tracking (0.0110em body, 0.0390em display), not weight contrast. The slight positive tracking gives the type an editorial, architectural quality. · `--font-gp`
-- **Substitute:** Inter or DM Sans
-- **Weights:** 400
-- **Sizes:** 13px, 15px, 16px, 30px, 48px
-- **Line height:** 1.10–1.77
-- **Letter spacing:** 0.0110em (body 13–16px), 0.0390em (display 30–48px)
-- **Role:** Universal typeface — used for nav, body, headings, buttons, and footer at weight 400 only. The single-weight constraint is the signature: no bold, no light, no medium. Hierarchy comes from size (13→48px) and tracking (0.0110em body, 0.0390em display), not weight contrast. The slight positive tracking gives the type an editorial, architectural quality.
-
-### GTStandard-M — GTStandard-M — detected in extracted data but not described by AI · `--font-gtstandard-m`
-- **Weights:** 400
-- **Sizes:** 15px
-- **Line height:** 1.5
-- **Role:** GTStandard-M — detected in extracted data but not described by AI
+### Lunar — Single-family geometric sans used for everything from 14px nav labels to 112px hero display. The tight universal tracking of -0.03em is the signature — it tightens every size equally, so body text feels editorial and display text feels architectural rather than decorative. Weight 500 carries body emphasis, weight 700 is reserved for numbered list items and UI labels. · `--font-lunar`
+- **Substitute:** Söhne, Inter, Neue Haas Grotesk
+- **Weights:** 400, 500, 700
+- **Sizes:** 14, 16, 20, 24, 32, 48, 64, 80, 112
+- **Line height:** 1.00 (display) / 1.30 (body & UI)
+- **Letter spacing:** -0.03em constant across all sizes
+- **Role:** Single-family geometric sans used for everything from 14px nav labels to 112px hero display. The tight universal tracking of -0.03em is the signature — it tightens every size equally, so body text feels editorial and display text feels architectural rather than decorative. Weight 500 carries body emphasis, weight 700 is reserved for numbered list items and UI labels.
 
 ### Type Scale
 
 | Role | Family | Weight | Size | Line Height | Letter Spacing | Token |
 |------|--------|--------|------|-------------|----------------|-------|
-| caption | — | — | 13px | 1.5 | 0.14px | `--text-caption` |
-| body-sm | — | — | 15px | 1.5 | 0.17px | `--text-body-sm` |
-| subheading | — | — | 30px | 1.2 | 1.17px | `--text-subheading` |
-| heading | — | — | 48px | 1.1 | 1.87px | `--text-heading` |
+| caption | — | — | 14px | 1.3 | -0.42px | `--text-caption` |
+| body-sm | — | — | 16px | 1.3 | -0.48px | `--text-body-sm` |
+| body | — | — | 20px | 1.3 | -0.6px | `--text-body` |
+| subheading | — | — | 24px | 1.3 | -0.72px | `--text-subheading` |
+| heading-sm | — | — | 32px | 1.3 | -0.96px | `--text-heading-sm` |
+| heading | — | — | 48px | 1 | -1.44px | `--text-heading` |
+| heading-lg | — | — | 64px | 1 | -1.92px | `--text-heading-lg` |
+| display | — | — | 112px | 1 | -3.36px | `--text-display` |
 
 ## Tokens — Spacing & Shapes
+
+**Base unit:** 4px
 
 **Density:** comfortable
 
@@ -50,160 +54,159 @@ UY operates as a monastic gallery: four warm grays, one weight of type, zero orn
 | Name | Value | Token |
 |------|-------|-------|
 | 4 | 4px | `--spacing-4` |
-| 6 | 6px | `--spacing-6` |
-| 7 | 7px | `--spacing-7` |
-| 10 | 10px | `--spacing-10` |
+| 8 | 8px | `--spacing-8` |
 | 12 | 12px | `--spacing-12` |
-| 13 | 13px | `--spacing-13` |
-| 15 | 15px | `--spacing-15` |
 | 16 | 16px | `--spacing-16` |
-| 17 | 17px | `--spacing-17` |
-| 20 | 20px | `--spacing-20` |
-| 22 | 22px | `--spacing-22` |
-| 30 | 30px | `--spacing-30` |
+| 24 | 24px | `--spacing-24` |
 | 32 | 32px | `--spacing-32` |
-| 143 | 143px | `--spacing-143` |
+| 40 | 40px | `--spacing-40` |
+| 48 | 48px | `--spacing-48` |
+| 64 | 64px | `--spacing-64` |
+| 112 | 112px | `--spacing-112` |
+| 140 | 140px | `--spacing-140` |
+| 160 | 160px | `--spacing-160` |
 
 ### Border Radius
 
 | Element | Value |
 |---------|-------|
-| cards | 0px |
-| images | 0px |
-| inputs | 3px |
-| buttons | 0px |
+| nav | 8px |
+| cards | 8px |
+| links | 8px |
+| buttons | 9999px |
 
 ### Layout
 
-- **Section gap:** 96px
-- **Card padding:** 16px
-- **Element gap:** 13px
+- **Page max-width:** 1280px
+- **Section gap:** 80px
+- **Card padding:** 24px
+- **Element gap:** 16px
 
 ## Components
 
-### Announcement Bar
-**Role:** Top-of-page brand message strip
+### Primary CTA Button
+**Role:** Filled action button for the main conversion on each page
 
-Full-width bar at the very top, Limestone (#d1d3cf) background, Soot (#24241f) text, GP 400 at 13px with 0.14px tracking. Centered text. 1px Soot bottom border. Sits above the nav with no gap.
+Pill shape (9999px radius), background #1e37a0 Cobalt Ink, text #ffffff, Lunar 16px weight 500, padding 12px 24px, letter-spacing -0.48px. The only filled-color button in the system; everything else is neutral or outlined. No border, no shadow.
 
-### Main Navigation
-**Role:** Primary site navigation
+### Ghost Button
+**Role:** Secondary action that pairs with a primary CTA
 
-Full-width bar, Limestone background, 1px Soot bottom border. Three zones: left-aligned category links (FRAGRANCE COLLECTION ▾, CORE HOMEWEAR, GIFT COLLECTION, CLOTHING), centered wordmark 'UY' at 30px, right-aligned utility links (JOURNAL, THE STUDIO ▾, LOG IN, EUR ▾, cart icon, account icon). All text GP 400, 13px, Soot. Category links have 13px horizontal spacing between items.
+Pill shape (9999px radius), transparent background, 1px border #000000 Obsidian, text #000000, Lunar 16px weight 500, padding 12px 24px. Always used alongside the Primary CTA to offer an alternative path without competing for visual weight.
 
-### Hero Image with Overlay Text
-**Role:** Full-bleed editorial banner
+### Nav Link
+**Role:** Top navigation menu items with optional dropdown caret
 
-Edge-to-edge product photography (no border-radius) with centered text overlay. Overlay text is Chalk (#e5e5e5) on the darker portions of the image, GP 400 at 48px, letter-spacing 1.87px. Text is vertically centered. No gradient overlay — text relies on the image's natural contrast zones.
+Lunar 16px weight 500, text #000000 Obsidian, 8px radius on clickable area, 24px horizontal padding. Dropdown items appear on hover with a 4px caret indicator. The nav sits on white with no background treatment.
 
-### Product Card
-**Role:** Individual product listing in the grid
+### Logo Wordmark
+**Role:** Brand identifier in the top-left of every page
 
-Full-bleed product photo on Chalk (#e5e5e5) surface, 0px radius. Below the image: product name and price in GP 400, 15px, Soot (#24241f), centered, 0.17px tracking. Name and price are on the same line or stacked. No card border, no shadow — the product photo IS the card.
+NORNORM stacked in two lines, Lunar 20px weight 700, letter-spacing -0.60px, color #1e37a0 Cobalt Ink. The two-line stacking and cobalt color make it a brand mark, not a plain text logo.
 
-### Product Grid
-**Role:** 5-column product listing
+### Language Switcher
+**Role:** Globe icon + region label in the top-right nav
 
-Equal-width 5-column grid spanning the full viewport width. Each column holds one Product Card. 1px Soot vertical dividers between columns. 1px Soot horizontal divider below the entire grid. No gutters between columns — the dividers create the grid structure.
+Globe icon (16px) in #000000, followed by Lunar 16px weight 500 text 'Global (EN)'. Sits inline with the CTA buttons at the right edge of the nav.
 
-### Newsletter Input
-**Role:** Email signup field
+### Hero Overlay
+**Role:** Full-bleed photographic hero with centered text block
 
-Single-line text input, no fill, 1px Soot (#24241f) bottom border only (underline style), 3px border-radius. Placeholder 'E-mail' in GP 400, 15px, Soot, 0.17px tracking. No label. The 'JOIN' action is a text link to the right, GP 400, 15px, Soot, with no underline by default.
+Full-viewport image (leather furniture close-up) with no separate overlay color — the image's own dark tones carry the text contrast. Centered headline in Lunar 48–64px weight 400, color #ffffff, max-width ~800px. Body subtext at 20px weight 400 #ffffff. CTA pair centered below: Primary CTA on the left, Ghost Button on the right, 16px gap.
 
-### Footer Link Column
-**Role:** Footer navigation links
+### Client Logo Strip
+**Role:** Social proof band directly under the hero
 
-Vertical stack of text links, GP 400, 13px, Soot (#24241f), 0.14px tracking. No bullet points, no icons. Left-aligned. Column header (e.g. 'OPENING TIMES') is uppercase at 13px. 1px Soot top border separates footer from product grid.
+White background, single line of grayscale client logos (Eidra, Netflix, Covivio, Booking.com, Electrolux, BCG, Klarna, Miro) at uniform height ~24px, evenly distributed across the full content width. No borders, no cards — logos sit directly on white at ~60% opacity to read as secondary.
 
-### Language Toggle
-**Role:** Language selector
+### Feature Card
+**Role:** 4-column grid item in the 'Why Subscribe' section
 
-Two-letter codes (EN | DE) separated by a thin Soot vertical bar. GP 400, 13px, Soot. Positioned bottom-left of the hero overlay. Active language is bold by convention — but since weight 400 is the only weight, active state uses a Soot underline instead.
+Vertical stack on a white background: square or 4:3 image at top (no border-radius — images stay sharp-edged), Lunar 20px weight 700 numbered label '01.' in #000000, heading at 20px weight 500 #000000, body copy at 16px weight 400 #6a6a6a Stone. No card chrome, no shadow, no border — the image is the visual frame.
 
-### Dropdown Nav Link
-**Role:** Category navigation with submenu indicator
+### Section Header
+**Role:** Centered title block for content sections
 
-Standard nav link (GP 400, 13px, Soot) followed by a small downward chevron (▾). The chevron is a text character, not an icon. No background change, no border on hover — the link underline appears on hover.
+Centered alignment, Lunar 48px weight 400 heading #000000, optional subheading at 20px weight 400 #6a6a6a Stone directly below, 64px bottom margin to the content. No decorative element — the whitespace and centered type are the entire header.
 
-### Utility Icon
-**Role:** Cart and account icons in nav
+### Image Gallery Carousel
+**Role:** Full-bleed horizontal photo strip showing client office spaces
 
-Stroke-only icons (bag silhouette, person silhouette) in Soot (#24241f), approximately 16px. No fill. Positioned at the far right of the nav. Icons are inline with text links at the same 13px baseline.
+Five large vertical photographs (portrait orientation, ~3:4) at equal widths, edge-to-edge with no gaps, contained in a horizontal scroll container with circular prev/next arrow buttons (40px, #000000 on white) floating at the bottom-right. No captions, no borders.
+
+### Gallery CTA Link
+**Role:** Text link to enter a full gallery view
+
+Outlined pill button style (Ghost Button pattern but smaller) or a simple underlined text link 'Explore client gallery' at 16px weight 500 #000000, positioned bottom-left of the gallery section.
+
+### Carousel Nav Button
+**Role:** Circular prev/next controls for image carousels
+
+40px circle, background #ffffff, 1px border #e5e5e5, center-aligned chevron icon in #000000, 8px internal padding. Two buttons stacked horizontally with 8px gap.
 
 ## Do's and Don'ts
 
 ### Do
-- Use GP at weight 400 for ALL text — from 13px footer notes to 48px display lines. No bold, no semibold, no light variants exist in this system.
-- Use Limestone (#d1d3cf) as the page background for every screen. Never substitute pure white (#ffffff) — the warm gray tint is the system's identity.
-- Use Soot (#24241f) for all text, icon strokes, and 1px borders. The warm-tinted near-black replaces standard #000 and ties the type to the concrete textures in the photography.
-- Apply 0.0390em letter-spacing to display sizes (30px+) and 0.0110em to body sizes (13–16px). The dual-tracking system is how hierarchy is expressed in a single-weight world.
-- Use 0px border-radius on all cards, images, and containers. 3px radius is reserved exclusively for text inputs. Sharp edges reinforce the architectural, gallery-like feel.
-- Present products as full-bleed photography on Chalk (#e5e5e5) surfaces with no card borders or shadows. The photograph IS the card.
-- Use text links with underlines as the primary interaction pattern. Filled buttons in Graphite (#333333) are reserved for single-purpose dark actions and should appear at most once per page.
+- Use Lunar at every size with -0.03em letter-spacing — the universal tracking is the brand's typographic signature, not optional
+- Use Cobalt Ink (#1e37a0) only for the logo wordmark, primary filled CTA buttons, and active states — never as a background fill, icon color, or decorative accent
+- Pair every Primary CTA with a Ghost Button beside it: the two-button pattern is the system's standard conversion unit
+- Use 9999px radius on all buttons, tags, and pill controls — there is no rounded-corner alternative in the system
+- Use 8px radius for image-less cards and content containers; leave photographic content with sharp 0px edges so the images read as full-bleed editorial
+- Build section backgrounds from Canvas White (#ffffff) and Bone (#f1efe9) only — never introduce a new tint
+- Use 16px or 24px as the gap between text and its adjacent control; 48px between stacked text blocks; 80px between sections
 
 ### Don't
-- Don't introduce bold, semibold, or light font weights. Weight 400 is the only voice — adding weight would break the flat, even texture that defines the system.
-- Don't add saturated colors, brand hues, or accent fills. The palette is four warm grays only — any chromatic color would shatter the monastic quality.
-- Don't use box-shadow or drop-shadow for elevation. Depth comes from the warm-gray surface stack (Limestone → Chalk → Graphite → Soot), not from shadows.
-- Don't round corners on cards, images, or containers. 0px everywhere except inputs. Rounded corners would soften the architectural, museum-pedestal feel.
-- Don't use color or weight to indicate interactive states. Use Soot underlines on hover, position shifts on active, and the underline-on-current pattern for navigation state.
-- Don't add decorative gradients, patterns, background textures, or ornamental graphics. The only imagery is product photography against real textures.
-- Don't use filled, colored, or rounded icon buttons. Icons are stroke-only in Soot, inline with text at the same baseline. The interface is text-first.
+- Do not introduce a second chromatic color — the system's authority comes from a single accent against monochrome
+- Do not use shadows, glows, or any box-shadow on cards, buttons, or modals — the system is deliberately flat
+- Do not use a filled neutral button (gray, black, or bone) as a primary action — the only filled button is Cobalt Ink on white
+- Do not break the -0.03em letter-spacing at any size, including body copy and captions — looser tracking reads as a different typeface
+- Do not add borders to feature cards, image containers, or section bands — the warm white-to-bone contrast carries separation
+- Do not use gradients on backgrounds, buttons, or text — the palette has no gradient tokens and adding one would break the Scandinavian restraint
+- Do not round the corners of large photographs, hero images, or gallery images — editorial content stays sharp-edged to contrast with the pill-shaped UI controls
 
 ## Surfaces
 
 | Level | Name | Value | Purpose |
 |-------|------|-------|---------|
-| 0 | Limestone Canvas | `#d1d3cf` | Page background, nav, announcement bar — the base warm gray that defines the entire tonal range |
-| 1 | Chalk Surface | `#e5e5e5` | Product photography backgrounds, subtle dividers — cooler neutral for the white plinths in product shots |
-| 2 | Graphite Button | `#333333` | Rare dark button fill — the only tonal step down from text, used for single-purpose dark actions |
-| 3 | Soot Text | `#24241f` | Text, icon strokes, hairline borders — functions as the darkest surface in the tonal stack |
+| 0 | Canvas | `#ffffff` | Base page background and most card surfaces |
+| 1 | Bone Band | `#f1efe9` | Warm section background and feature card panel for visual warmth without leaving the neutral palette |
+| 2 | Ash Plate | `#ececec` | Subtle elevation layer and low-emphasis button surface |
+| 3 | Cobalt Accent | `#1e37a0` | Brand action surface — pill button fill and logo |
 
 ## Elevation
 
-The system deliberately avoids box-shadows and drop-shadows. Elevation is communicated entirely through the warm-gray surface stack: Limestone (page) → Chalk (product surfaces) → Graphite (dark button) → Soot (text and borders). Where depth is needed, it comes from 1px hairline borders in Soot, not from blur or offset shadows. The only shadows in the system are the natural ones cast by products in the photography.
+No shadows. The system is deliberately flat — surfaces are distinguished by the warm bone (#f1efe9) tint against pure white, never by cast shadow. Photography and the cobalt accent do all the visual work that elevation would otherwise do. Even buttons sit flat: the pill shape and color contrast carry the affordance, not a drop shadow.
 
 ## Imagery
 
-Product photography is editorial still-life: perfume bottles, candles, and room sprays shot in natural directional light against raw concrete and weathered plaster walls. Products rest on white or off-white plinths, creating a museum-pedestal effect. Full-bleed hero images, contained grid thumbnails with no rounding. Long, dramatic shadows cast across the surfaces. Color treatment is desaturated and warm — amber liquids in glass bottles, natural wax tones, the warm gray of concrete and stone. No lifestyle imagery, no models, no hands — the object alone is the subject, lit like a gallery installation. The photography carries all the visual warmth that the UI refuses to express through color.
+Photography is the brand's primary expressive medium. The hero is a full-bleed extreme close-up of warm brown leather furniture — texture, not product showcase. The 'Why Subscribe' section uses a different visual mode: sculptural white paper-craft vignettes (a chair coin, a folded sofa, an origami forest) shot on a pale surface with soft shadows, rendered in monochrome white. The client gallery is full-color editorial interior photography: real offices with natural light, plants, textiles, and people at work, shot in a lifestyle-documentary register rather than staged commercial. All imagery avoids the chrome of catalog photography — no white seamless backdrops, no floating products, no studio lights. The visual rule: if a photograph could appear in a Kinfolk magazine spread, it belongs here.
 
 ## Layout
 
-Full-bleed layout with no max-width container — every section spans edge to edge. Navigation is a single horizontal bar: left-aligned category links, centered wordmark, right-aligned utility links, all on one row. The hero is full-viewport-height photography with centered text overlay. The product grid is a 5-column equal-width layout filling the viewport, separated by 1px Soot dividers. Footer is a horizontal band with three link columns and a newsletter input, all on the Limestone canvas. Vertical rhythm is generous: 96px between major sections, with the hero-to-grid transition being the largest break. No sidebar, no asymmetric compositions — everything is centered or evenly distributed. The page reads top-to-bottom as: announcement → nav → hero → product grid → footer, a clean vertical stack with no deviation.
+Page-level layout follows a full-bleed hero → max-width content → full-bleed gallery pattern. The hero is a full-viewport image with centered text overlay (no max-width on the image, but the text block is constrained to ~800px). Below the hero, the client logo strip runs edge-to-edge. The 'Why Subscribe' section uses a max-width of ~1280px centered, with a 4-column equal grid of feature cards. Section headers are always centered, never left-aligned. The client gallery breaks back to full-bleed for its image carousel. Vertical rhythm is generous: 80px between sections, 48px between content blocks within a section, 24px between heading and body. The overall density reads as spacious and editorial — this is a brand that wants to breathe, not pack information.
 
 ## Agent Prompt Guide
 
-## Quick Color Reference
-- text: #24241f (Soot)
-- background: #d1d3cf (Limestone)
-- border: #24241f (Soot, 1px hairline)
-- accent: #d1d3cf (Limestone — the warm gray IS the accent)
+**Quick Color Reference**
+- text: #000000 (primary) / #6a6a6a (secondary) / #ffffff (on dark or cobalt)
+- background: #ffffff (canvas) / #f1efe9 (bone section)
+- border: #000000 (structural) / #e5e5e5 (hairline on white controls)
+- accent: #1e37a0 Cobalt Ink (logo, active state, link emphasis only)
 - primary action: no distinct CTA color
 
-## Example Component Prompts
-
-1. **Hero Overlay Text**: Centered text over a full-bleed product photograph. GP 400, 48px, color #e5e5e5, letter-spacing 1.87px, line-height 1.10. Vertically centered in the viewport. No background overlay — text relies on the image's natural dark areas for contrast.
-
-2. **Product Card**: Full-bleed product photograph on a #e5e5e5 surface, 0px border-radius, no border, no shadow. Below the image: product name and price in GP 400, 15px, #24241f, centered, letter-spacing 0.17px. The name and price sit on one line or stack with 4px gap. No card padding on the image — the photo fills the column edge to edge.
-
-3. **Navigation Link**: GP 400, 13px, #24241f, letter-spacing 0.14px, text-transform uppercase. No background, no border. On hover: 1px #24241f underline. Active state: permanent underline. 13px horizontal spacing between adjacent links. Chevron ▾ characters for dropdowns are inline text, not icons.
-
-4. **Newsletter Input**: Single-line text input, no background fill, 1px #24241f bottom border only (underline style), 3px border-radius. Placeholder 'E-mail' in GP 400, 15px, #24241f, letter-spacing 0.17px. The 'JOIN' action to the right is a text link in GP 400, 15px, #24241f, with no default underline.
-
-5. **Footer Link Column**: Vertical stack of text links, GP 400, 13px, #24241f, letter-spacing 0.14px, left-aligned. Column header uppercase at 13px. 17px vertical gap between links. 1px #24241f top border above the entire footer block. No icons, no bullets, no dividers between links.
-
-## The Letter System
-
-Every product carries a single uppercase letter as its primary brand mark (T, U, S). This letter is rendered in the same GP 400 weight as all other typography, at a large display size on the product label. The letter system is a typographic logo reduced to its most essential element — one character, one weight, one voice. When building new product pages, assign each product line a single letter and render it as a display element on the label. Do not add logos, wordmarks, or secondary marks to product surfaces.
+**Example Component Prompts**
+No distinct primary action color was observed; use the extracted neutral button treatments instead of inventing a filled CTA color.
+2. Build a 4-column feature grid on a white #ffffff canvas. Each card: square image at top with 0px border-radius, then Lunar 20px weight 700 '01.' through '04.' in #000000, then heading at Lunar 20px weight 500 #000000, then body copy Lunar 16px weight 400 #6a6a6a. 24px gap between image and text, 32px column gap.
+3. Build a centered section header: Lunar 48px weight 400 #000000 heading with -1.44px letter-spacing, optional Lunar 20px weight 400 #6a6a6a subhead directly below with 8px gap. 64px bottom margin to the content. No decorative element.
+5. Build a client logo strip: white background, single row of 8 grayscale logos at uniform 24px height, evenly distributed across the full 1280px content width, 60% opacity to read as secondary social proof.
 
 ## Similar Brands
 
-- **Byredo** — Same single-weight sans-serif typography and monochrome product photography approach, with editorial type that whispers rather than shouts
-- **Aesop** — Same warm-neutral palette and museum-pedestal product presentation, where the object is the hero and the UI stays out of the way
-- **Le Labo** — Same raw-material-forward aesthetic and sparse, text-based navigation with zero decorative chrome on the product cards
-- **The Row** — Same weight-400-only typography philosophy and warm grayscale palette that treats restraint as the ultimate luxury signal
-- **Mansur Gavriel** — Same full-bleed product photography and minimal text-driven interface where negative space carries the compositional weight
+- **Hem** — Same Scandinavian furniture-showroom restraint — monochrome canvas, single accent, pill-shaped CTAs, full-bleed editorial interior photography
+- **Vitra** — Shared typographic discipline (custom geometric sans, tight tracking), warm off-white surfaces, and reliance on full-bleed lifestyle photography instead of UI decoration
+- **Audo Copenhagen** — Near-identical component language: pill buttons, monochrome with one accent, bone-tinted section bands, and sharp-edged editorial images
+- **Kinfolk Magazine** — Same editorial sensibility — generous whitespace, centered type, warm neutral palette, and large quiet photography as the primary content
+- **Vipp** — Same cobalt-as-only-accent against warm monochrome, pill controls, and the discipline of letting one color do all the brand work
 
 ## Quick Start
 
@@ -212,67 +215,85 @@ Every product carries a single uppercase letter as its primary brand mark (T, U,
 ```css
 :root {
   /* Colors */
-  --color-soot: #24241f;
-  --color-limestone: #d1d3cf;
-  --color-chalk: #e5e5e5;
+  --color-canvas-white: #ffffff;
+  --color-bone: #f1efe9;
+  --color-ash: #ececec;
+  --color-stone: #6a6a6a;
   --color-graphite: #333333;
+  --color-ink: #1f1d1e;
+  --color-obsidian: #000000;
+  --color-cobalt-ink: #1e37a0;
 
   /* Typography — Font Families */
-  --font-gp: 'GP', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-gtstandard-m: 'GTStandard-M', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-lunar: 'Lunar', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
-  --text-caption: 13px;
-  --leading-caption: 1.5;
-  --tracking-caption: 0.14px;
-  --text-body-sm: 15px;
-  --leading-body-sm: 1.5;
-  --tracking-body-sm: 0.17px;
-  --text-subheading: 30px;
-  --leading-subheading: 1.2;
-  --tracking-subheading: 1.17px;
+  --text-caption: 14px;
+  --leading-caption: 1.3;
+  --tracking-caption: -0.42px;
+  --text-body-sm: 16px;
+  --leading-body-sm: 1.3;
+  --tracking-body-sm: -0.48px;
+  --text-body: 20px;
+  --leading-body: 1.3;
+  --tracking-body: -0.6px;
+  --text-subheading: 24px;
+  --leading-subheading: 1.3;
+  --tracking-subheading: -0.72px;
+  --text-heading-sm: 32px;
+  --leading-heading-sm: 1.3;
+  --tracking-heading-sm: -0.96px;
   --text-heading: 48px;
-  --leading-heading: 1.1;
-  --tracking-heading: 1.87px;
+  --leading-heading: 1;
+  --tracking-heading: -1.44px;
+  --text-heading-lg: 64px;
+  --leading-heading-lg: 1;
+  --tracking-heading-lg: -1.92px;
+  --text-display: 112px;
+  --leading-display: 1;
+  --tracking-display: -3.36px;
 
   /* Typography — Weights */
   --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 
   /* Spacing */
+  --spacing-unit: 4px;
   --spacing-4: 4px;
-  --spacing-6: 6px;
-  --spacing-7: 7px;
-  --spacing-10: 10px;
+  --spacing-8: 8px;
   --spacing-12: 12px;
-  --spacing-13: 13px;
-  --spacing-15: 15px;
   --spacing-16: 16px;
-  --spacing-17: 17px;
-  --spacing-20: 20px;
-  --spacing-22: 22px;
-  --spacing-30: 30px;
+  --spacing-24: 24px;
   --spacing-32: 32px;
-  --spacing-143: 143px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-112: 112px;
+  --spacing-140: 140px;
+  --spacing-160: 160px;
 
   /* Layout */
-  --section-gap: 96px;
-  --card-padding: 16px;
-  --element-gap: 13px;
+  --page-max-width: 1280px;
+  --section-gap: 80px;
+  --card-padding: 24px;
+  --element-gap: 16px;
 
   /* Border Radius */
-  --radius-sm: 3px;
+  --radius-lg: 8px;
+  --radius-full: 1440px;
 
   /* Named Radii */
-  --radius-cards: 0px;
-  --radius-images: 0px;
-  --radius-inputs: 3px;
-  --radius-buttons: 0px;
+  --radius-nav: 8px;
+  --radius-cards: 8px;
+  --radius-links: 8px;
+  --radius-buttons: 9999px;
 
   /* Surfaces */
-  --surface-limestone-canvas: #d1d3cf;
-  --surface-chalk-surface: #e5e5e5;
-  --surface-graphite-button: #333333;
-  --surface-soot-text: #24241f;
+  --surface-canvas: #ffffff;
+  --surface-bone-band: #f1efe9;
+  --surface-ash-plate: #ececec;
+  --surface-cobalt-accent: #1e37a0;
 }
 ```
 
@@ -281,46 +302,60 @@ Every product carries a single uppercase letter as its primary brand mark (T, U,
 ```css
 @theme {
   /* Colors */
-  --color-soot: #24241f;
-  --color-limestone: #d1d3cf;
-  --color-chalk: #e5e5e5;
+  --color-canvas-white: #ffffff;
+  --color-bone: #f1efe9;
+  --color-ash: #ececec;
+  --color-stone: #6a6a6a;
   --color-graphite: #333333;
+  --color-ink: #1f1d1e;
+  --color-obsidian: #000000;
+  --color-cobalt-ink: #1e37a0;
 
   /* Typography */
-  --font-gp: 'GP', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-gtstandard-m: 'GTStandard-M', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-lunar: 'Lunar', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* Typography — Scale */
-  --text-caption: 13px;
-  --leading-caption: 1.5;
-  --tracking-caption: 0.14px;
-  --text-body-sm: 15px;
-  --leading-body-sm: 1.5;
-  --tracking-body-sm: 0.17px;
-  --text-subheading: 30px;
-  --leading-subheading: 1.2;
-  --tracking-subheading: 1.17px;
+  --text-caption: 14px;
+  --leading-caption: 1.3;
+  --tracking-caption: -0.42px;
+  --text-body-sm: 16px;
+  --leading-body-sm: 1.3;
+  --tracking-body-sm: -0.48px;
+  --text-body: 20px;
+  --leading-body: 1.3;
+  --tracking-body: -0.6px;
+  --text-subheading: 24px;
+  --leading-subheading: 1.3;
+  --tracking-subheading: -0.72px;
+  --text-heading-sm: 32px;
+  --leading-heading-sm: 1.3;
+  --tracking-heading-sm: -0.96px;
   --text-heading: 48px;
-  --leading-heading: 1.1;
-  --tracking-heading: 1.87px;
+  --leading-heading: 1;
+  --tracking-heading: -1.44px;
+  --text-heading-lg: 64px;
+  --leading-heading-lg: 1;
+  --tracking-heading-lg: -1.92px;
+  --text-display: 112px;
+  --leading-display: 1;
+  --tracking-display: -3.36px;
 
   /* Spacing */
   --spacing-4: 4px;
-  --spacing-6: 6px;
-  --spacing-7: 7px;
-  --spacing-10: 10px;
+  --spacing-8: 8px;
   --spacing-12: 12px;
-  --spacing-13: 13px;
-  --spacing-15: 15px;
   --spacing-16: 16px;
-  --spacing-17: 17px;
-  --spacing-20: 20px;
-  --spacing-22: 22px;
-  --spacing-30: 30px;
+  --spacing-24: 24px;
   --spacing-32: 32px;
-  --spacing-143: 143px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-112: 112px;
+  --spacing-140: 140px;
+  --spacing-160: 160px;
 
   /* Border Radius */
-  --radius-sm: 3px;
+  --radius-lg: 8px;
+  --radius-full: 1440px;
 }
 ```

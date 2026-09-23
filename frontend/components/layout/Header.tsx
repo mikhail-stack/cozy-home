@@ -11,41 +11,53 @@ const navLinks = [
   { href: "/about", label: "О магазине" },
 ];
 
+// "The nav sits on white with no background treatment" (docs/DESIGN.md,
+// Nav Link) — Canvas White, без hairline-рамки снизу: система разделяет
+// секции поверхностями (Bone/Canvas), а не бордерами.
 export function Header() {
   const cartCount = useCartStore(selectCartCount);
   const openCart = useUIStore((state) => state.openCart);
   const user = useAuthStore((state) => state.user);
 
   return (
-    <header className="border-b border-soot bg-limestone">
-      <div className="flex items-center justify-between gap-20 px-20 py-16">
-        <Link href="/" className="text-soot">
+    <header className="bg-canvas-white">
+      <div className="flex items-center justify-between gap-24 px-24 py-16">
+        <Link href="/">
           <Logo />
         </Link>
 
-        <nav className="flex items-center gap-20">
+        <nav className="flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="font-gp text-body-sm tracking-body-sm text-soot hover:underline"
+              className="rounded-lg px-24 py-8 font-lunar text-body-sm tracking-body-sm font-medium text-obsidian hover:bg-ash"
             >
               {link.label}
             </Link>
           ))}
         </nav>
 
-        <div className="flex items-center gap-20">
+        <div className="flex items-center gap-16">
           {user ? (
-            <Link href="/profile" className="font-gp text-body-sm tracking-body-sm text-soot hover:underline">
+            <Link
+              href="/profile"
+              className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian hover:underline"
+            >
               {user.name}
             </Link>
           ) : (
             <div className="flex items-center gap-16">
-              <Link href="/login" className="font-gp text-body-sm tracking-body-sm text-soot hover:underline">
+              <Link
+                href="/login"
+                className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian hover:underline"
+              >
                 Войти
               </Link>
-              <Link href="/register" className="font-gp text-body-sm tracking-body-sm text-soot hover:underline">
+              <Link
+                href="/register"
+                className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian hover:underline"
+              >
                 Регистрация
               </Link>
             </div>
@@ -55,7 +67,7 @@ export function Header() {
           <button
             type="button"
             onClick={openCart}
-            className="flex items-center gap-6 font-gp text-body-sm tracking-body-sm text-soot"
+            className="flex items-center gap-8 font-lunar text-body-sm tracking-body-sm font-medium text-obsidian"
             aria-label={`Корзина: ${cartCount} товаров`}
           >
             <svg

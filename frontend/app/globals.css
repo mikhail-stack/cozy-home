@@ -1,53 +1,69 @@
 @import "tailwindcss";
 
-/* Дизайн-токены — источник: docs/DESIGN.md (UY Studio style reference) */
+/* Дизайн-токены — источник: docs/DESIGN.md (Nornorm style reference).
+   Радиусы не переопределяем: rounded-lg (8px) и rounded-full (9999px) из
+   коробки Tailwind v4 уже совпадают со значениями "cards/links" и
+   "buttons" из файла. */
 @theme {
   /* Colors */
-  --color-soot: #24241f;
-  --color-limestone: #d1d3cf;
-  --color-chalk: #e5e5e5;
+  --color-canvas-white: #ffffff;
+  --color-bone: #f1efe9;
+  --color-ash: #ececec;
+  --color-stone: #6a6a6a;
   --color-graphite: #333333;
+  --color-ink: #1f1d1e;
+  --color-obsidian: #000000;
+  --color-cobalt-ink: #1e37a0;
 
-  /* Typography — шрифт GP недоступен как веб-шрифт, заменён на Inter (next/font, см. lib/fonts.ts) */
-  --font-gp: var(--font-inter, "Inter"), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Typography — шрифт Lunar недоступен как веб-шрифт, заменён на Inter
+     (один из предложенных в файле аналогов, next/font, см. lib/fonts.ts) */
+  --font-lunar: var(--font-inter, "Inter"), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  /* Typography — Scale */
-  --text-caption: 13px;
-  --leading-caption: 1.5;
-  --tracking-caption: 0.14px;
-  --text-body-sm: 15px;
-  --leading-body-sm: 1.5;
-  --tracking-body-sm: 0.17px;
-  --text-subheading: 30px;
-  --leading-subheading: 1.2;
-  --tracking-subheading: 1.17px;
+  /* Typography — Scale. -0.03em трекинг на каждом размере — сигнатура
+     системы, поэтому у каждого текстового токена есть парный tracking. */
+  --text-caption: 14px;
+  --leading-caption: 1.3;
+  --tracking-caption: -0.42px;
+  --text-body-sm: 16px;
+  --leading-body-sm: 1.3;
+  --tracking-body-sm: -0.48px;
+  --text-body: 20px;
+  --leading-body: 1.3;
+  --tracking-body: -0.6px;
+  --text-subheading: 24px;
+  --leading-subheading: 1.3;
+  --tracking-subheading: -0.72px;
+  --text-heading-sm: 32px;
+  --leading-heading-sm: 1.3;
+  --tracking-heading-sm: -0.96px;
   --text-heading: 48px;
-  --leading-heading: 1.1;
-  --tracking-heading: 1.87px;
+  --leading-heading: 1;
+  --tracking-heading: -1.44px;
+  --text-heading-lg: 64px;
+  --leading-heading-lg: 1;
+  --tracking-heading-lg: -1.92px;
+  --text-display: 112px;
+  --leading-display: 1;
+  --tracking-display: -3.36px;
 
-  /* Spacing */
+  /* Spacing — базовая единица 4px */
   --spacing-4: 4px;
-  --spacing-6: 6px;
-  --spacing-7: 7px;
-  --spacing-10: 10px;
+  --spacing-8: 8px;
   --spacing-12: 12px;
-  --spacing-13: 13px;
-  --spacing-15: 15px;
   --spacing-16: 16px;
-  --spacing-17: 17px;
-  --spacing-20: 20px;
-  --spacing-22: 22px;
-  --spacing-30: 30px;
+  --spacing-24: 24px;
   --spacing-32: 32px;
-  --spacing-143: 143px;
-
-  /* Border Radius */
-  --radius-sm: 3px;
+  --spacing-40: 40px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-112: 112px;
+  --spacing-140: 140px;
+  --spacing-160: 160px;
 }
 
 body {
-  background-color: var(--color-limestone);
-  color: var(--color-soot);
-  font-family: var(--font-gp);
+  background-color: var(--color-canvas-white);
+  color: var(--color-obsidian);
+  font-family: var(--font-lunar);
   font-weight: 400;
 }

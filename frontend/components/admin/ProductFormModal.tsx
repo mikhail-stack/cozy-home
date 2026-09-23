@@ -13,6 +13,9 @@ const CATEGORY_OPTIONS: { value: ProductCategory; label: string }[] = [
   { value: "decor", label: "Декор" },
 ];
 
+const selectClasses =
+  "w-full rounded-lg border border-graphite bg-ash px-16 py-12 font-lunar text-body-sm tracking-body-sm text-obsidian focus:border-cobalt-ink focus:outline-none";
+
 interface ProductFormModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -48,26 +51,26 @@ export function ProductFormModal({ isOpen, onClose, onSave, product }: ProductFo
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
         <div className="flex items-center justify-between">
-          <span className="font-gp text-body-sm tracking-body-sm text-soot">
+          <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
             {product ? "Редактировать товар" : "Новый товар"}
           </span>
-          <button type="button" onClick={onClose} aria-label="Закрыть" className="text-soot">
+          <button type="button" onClick={onClose} aria-label="Закрыть" className="text-obsidian">
             ✕
           </button>
         </div>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Название</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Название</span>
           <Input required value={name} onChange={(event) => setName(event.target.value)} />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Описание</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Описание</span>
           <Input required value={description} onChange={(event) => setDescription(event.target.value)} />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Цена, грн</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Цена, грн</span>
           <Input
             required
             type="number"
@@ -77,12 +80,12 @@ export function ProductFormModal({ isOpen, onClose, onSave, product }: ProductFo
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Категория</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Категория</span>
           <select
             value={category}
             onChange={(event) => setCategory(event.target.value as ProductCategory)}
-            className="border-0 border-b border-soot bg-transparent px-0 py-7 font-gp text-body-sm tracking-body-sm text-soot focus:outline-none"
+            className={selectClasses}
           >
             {CATEGORY_OPTIONS.map((option) => (
               <option key={option.value} value={option.value}>
@@ -92,24 +95,24 @@ export function ProductFormModal({ isOpen, onClose, onSave, product }: ProductFo
           </select>
         </label>
 
-        <div className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Фото</span>
-          <div className="border border-dashed border-soot px-16 py-16 text-center font-gp text-caption tracking-caption text-soot">
+        <div className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Фото</span>
+          <div className="rounded-lg border border-dashed border-graphite px-16 py-16 text-center font-lunar text-caption tracking-caption text-stone">
             Загрузка появится вместе с Cloudinary (backend)
           </div>
         </div>
 
-        <label className="flex items-center gap-8 font-gp text-caption tracking-caption text-soot">
+        <label className="flex items-center gap-8 font-lunar text-caption tracking-caption text-stone">
           <input
             type="checkbox"
             checked={inStock}
             onChange={(event) => setInStock(event.target.checked)}
-            className="accent-soot"
+            className="accent-cobalt-ink"
           />
           В наличии
         </label>
 
-        <Button type="submit" variant="solid">
+        <Button type="submit" variant="primary">
           Сохранить
         </Button>
       </form>

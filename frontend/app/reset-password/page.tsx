@@ -36,8 +36,8 @@ export default function ResetPasswordPage() {
   return (
     <AuthCard title="Новый пароль">
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Код из Telegram</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Код из Telegram</span>
           <Input
             required
             value={code}
@@ -46,8 +46,8 @@ export default function ResetPasswordPage() {
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Новый пароль</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Новый пароль</span>
           <Input
             required
             type="password"
@@ -57,8 +57,8 @@ export default function ResetPasswordPage() {
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Подтверждение пароля</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Подтверждение пароля</span>
           <Input
             required
             type="password"
@@ -68,14 +68,14 @@ export default function ResetPasswordPage() {
           />
         </label>
 
-        {error && <p className="font-gp text-caption tracking-caption text-soot">{error}</p>}
-        {notice && <p className="font-gp text-caption tracking-caption text-soot">{notice}</p>}
+        {error && <p className="font-lunar text-caption tracking-caption text-stone">{error}</p>}
+        {notice && <p className="font-lunar text-caption tracking-caption text-stone">{notice}</p>}
 
-        <Button type="submit" variant="solid">
+        <Button type="submit" variant="primary">
           Сохранить пароль
         </Button>
 
-        <Link href="/login" className="font-gp text-caption tracking-caption text-soot hover:underline">
+        <Link href="/login" className="font-lunar text-caption tracking-caption text-stone hover:underline">
           Вернуться ко входу
         </Link>
       </form>

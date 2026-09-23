@@ -7,7 +7,7 @@ export default function HomePage() {
     <>
       <Hero />
 
-      <section id="catalog" className="px-20 py-32">
+      <section id="catalog" className="px-24 py-32">
         <ProductCatalog products={PRODUCTS} />
       </section>
     </>

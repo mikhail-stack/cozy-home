@@ -35,13 +35,13 @@ export default function RegisterPage() {
   return (
     <AuthCard title="Регистрация">
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Имя</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Имя</span>
           <Input required value={name} onChange={(event) => setName(event.target.value)} placeholder="Ваше имя" />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Email</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Email</span>
           <Input
             required
             type="email"
@@ -51,8 +51,8 @@ export default function RegisterPage() {
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Пароль</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Пароль</span>
           <Input
             required
             type="password"
@@ -62,8 +62,8 @@ export default function RegisterPage() {
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Подтверждение пароля</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Подтверждение пароля</span>
           <Input
             required
             type="password"
@@ -73,14 +73,14 @@ export default function RegisterPage() {
           />
         </label>
 
-        {error && <p className="font-gp text-caption tracking-caption text-soot">{error}</p>}
-        {notice && <p className="font-gp text-caption tracking-caption text-soot">{notice}</p>}
+        {error && <p className="font-lunar text-caption tracking-caption text-stone">{error}</p>}
+        {notice && <p className="font-lunar text-caption tracking-caption text-stone">{notice}</p>}
 
-        <Button type="submit" variant="solid">
+        <Button type="submit" variant="primary">
           Зарегистрироваться
         </Button>
 
-        <Link href="/login" className="font-gp text-caption tracking-caption text-soot hover:underline">
+        <Link href="/login" className="font-lunar text-caption tracking-caption text-stone hover:underline">
           Уже есть аккаунт? Войти
         </Link>
       </form>

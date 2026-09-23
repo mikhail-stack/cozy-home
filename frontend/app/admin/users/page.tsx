@@ -22,12 +22,12 @@ export default function AdminUsersPage() {
 
   return (
     <div className="flex flex-col gap-24">
-      <h1 className="font-gp text-subheading tracking-subheading text-soot">Пользователи</h1>
+      <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">Пользователи</h1>
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse font-gp text-body-sm tracking-body-sm text-soot">
+        <table className="w-full border-collapse font-lunar text-body-sm tracking-body-sm text-obsidian">
           <thead>
-            <tr className="border-b border-soot text-left">
+            <tr className="border-b border-ash text-left">
               <th className="py-8 pr-16">Имя</th>
               <th className="py-8 pr-16">Email</th>
               <th className="py-8 pr-16">Telegram</th>
@@ -38,7 +38,7 @@ export default function AdminUsersPage() {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id} className="border-b border-soot">
+              <tr key={user.id} className="border-b border-ash">
                 <td className="py-8 pr-16">{user.name}</td>
                 <td className="py-8 pr-16">{user.email}</td>
                 <td className="py-8 pr-16">{user.telegram ?? "—"}</td>
@@ -46,7 +46,7 @@ export default function AdminUsersPage() {
                   <select
                     value={user.role}
                     onChange={(event) => handleRoleChange(user.id, event.target.value as UserRole)}
-                    className="border-0 border-b border-soot bg-transparent px-0 py-4 font-gp text-body-sm tracking-body-sm text-soot focus:outline-none"
+                    className="rounded-lg border border-graphite bg-ash px-12 py-4 font-lunar text-body-sm tracking-body-sm text-obsidian focus:border-cobalt-ink focus:outline-none"
                   >
                     <option value="user">user</option>
                     <option value="admin">admin</option>

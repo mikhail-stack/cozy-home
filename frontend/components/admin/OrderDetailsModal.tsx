@@ -15,31 +15,33 @@ export function OrderDetailsModal({ order, onClose, onStatusChange }: OrderDetai
       {order && (
         <div className="flex flex-col gap-16">
           <div className="flex items-center justify-between">
-            <span className="font-gp text-body-sm tracking-body-sm text-soot">Заказ #{order.id}</span>
-            <button type="button" onClick={onClose} aria-label="Закрыть" className="text-soot">
+            <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
+              Заказ #{order.id}
+            </span>
+            <button type="button" onClick={onClose} aria-label="Закрыть" className="text-obsidian">
               ✕
             </button>
           </div>
 
-          <div className="flex flex-col gap-4 font-gp text-body-sm tracking-body-sm text-soot">
+          <div className="flex flex-col gap-4 font-lunar text-body-sm tracking-body-sm text-obsidian">
             <span>Имя: {order.name}</span>
             <span>Телефон: {order.phone}</span>
             <span>Дата: {order.date}</span>
             {order.comment && <span>Комментарий: {order.comment}</span>}
           </div>
 
-          <div className="border-t border-soot pt-16 font-gp text-body-sm tracking-body-sm text-soot">
-            <p className="mb-4">Состав заказа:</p>
+          <div className="rounded-lg bg-bone p-16 font-lunar text-body-sm tracking-body-sm text-obsidian">
+            <p className="mb-4 text-stone">Состав заказа:</p>
             <p>{order.items}</p>
             <p className="mt-8 font-medium">Итого: {order.total} грн</p>
           </div>
 
-          <label className="flex flex-col gap-6">
-            <span className="font-gp text-caption tracking-caption text-soot">Статус</span>
+          <label className="flex flex-col gap-8">
+            <span className="font-lunar text-caption tracking-caption text-stone">Статус</span>
             <select
               value={order.status}
               onChange={(event) => onStatusChange(order.id, event.target.value as AdminOrderStatus)}
-              className="border-0 border-b border-soot bg-transparent px-0 py-7 font-gp text-body-sm tracking-body-sm text-soot focus:outline-none"
+              className="rounded-lg border border-graphite bg-ash px-16 py-12 font-lunar text-body-sm tracking-body-sm text-obsidian focus:border-cobalt-ink focus:outline-none"
             >
               {Object.entries(STATUS_LABELS).map(([value, label]) => (
                 <option key={value} value={value}>

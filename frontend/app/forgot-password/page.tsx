@@ -23,11 +23,11 @@ export default function ForgotPasswordPage() {
     return (
       <AuthCard title="Восстановление пароля">
         <div className="flex flex-col gap-16">
-          <p className="font-gp text-body-sm tracking-body-sm text-soot">
+          <p className="font-lunar text-body-sm tracking-body-sm text-obsidian">
             Telegram не привязан к аккаунту {email}. Чтобы получить код:
           </p>
 
-          <ol className="flex list-decimal flex-col gap-8 pl-20 font-gp text-body-sm tracking-body-sm text-soot">
+          <ol className="flex list-decimal flex-col gap-8 pl-24 font-lunar text-body-sm tracking-body-sm text-obsidian">
             <li>
               Напишите боту{" "}
               <a
@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
 
           <Link
             href="/reset-password"
-            className="bg-graphite px-16 py-10 text-center font-gp text-body-sm tracking-body-sm text-chalk hover:opacity-90"
+            className="rounded-full bg-cobalt-ink px-24 py-12 text-center font-lunar text-body-sm tracking-body-sm font-medium text-canvas-white hover:opacity-90"
           >
             Я написал боту
           </Link>
@@ -53,7 +53,7 @@ export default function ForgotPasswordPage() {
           <button
             type="button"
             onClick={() => setStep("email")}
-            className="font-gp text-caption tracking-caption text-soot hover:underline"
+            className="font-lunar text-caption tracking-caption text-stone hover:underline"
           >
             Назад
           </button>
@@ -65,8 +65,8 @@ export default function ForgotPasswordPage() {
   return (
     <AuthCard title="Восстановление пароля">
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Email</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Email</span>
           <Input
             required
             type="email"
@@ -76,11 +76,11 @@ export default function ForgotPasswordPage() {
           />
         </label>
 
-        <Button type="submit" variant="solid">
+        <Button type="submit" variant="primary">
           Отправить код
         </Button>
 
-        <Link href="/login" className="font-gp text-caption tracking-caption text-soot hover:underline">
+        <Link href="/login" className="font-lunar text-caption tracking-caption text-stone hover:underline">
           Вернуться ко входу
         </Link>
       </form>

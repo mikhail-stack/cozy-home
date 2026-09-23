@@ -22,7 +22,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   ).slice(0, 4);
 
   return (
-    <div className="flex flex-col gap-32 px-20 py-32">
+    <div className="flex flex-col gap-32 px-24 py-32">
       <Breadcrumbs product={product} />
 
       <div className="grid gap-32 md:grid-cols-2">

@@ -14,8 +14,9 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
 
 // Данные пользователя/заказов — мок (lib/mock-profile.ts) до подключения
 // auth.store к реальной сессии и Orders-модулю backend (пункты 15, 18,
-// 23 плана). Доступ страницы только для авторизованных ограничит
-// middleware.ts (пункт 12 плана) — пока страница открыта всем.
+// 23 плана). Доступ ограничен через proxy.ts (пункт 12 плана).
+// Разделы отделены отступами и Bone-поверхностью истории заказов, без
+// hairline-рамок (docs/DESIGN.md).
 export default function ProfilePage() {
   const router = useRouter();
   const clearSession = useAuthStore((state) => state.clearSession);
@@ -26,50 +27,50 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="mx-auto flex max-w-[720px] flex-col gap-32 px-20 py-32">
-      <section className="flex flex-col gap-16 border-b border-soot pb-32">
-        <h1 className="font-gp text-subheading tracking-subheading text-soot">Личный кабинет</h1>
+    <div className="mx-auto flex max-w-[720px] flex-col gap-32 px-24 py-32">
+      <section className="flex flex-col gap-16">
+        <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">Личный кабинет</h1>
 
-        <div className="flex flex-col gap-4 font-gp text-body-sm tracking-body-sm text-soot">
+        <div className="flex flex-col gap-4 font-lunar text-body-sm tracking-body-sm text-obsidian">
           <span>{MOCK_USER.name}</span>
           <span>{MOCK_USER.email}</span>
           <span>{MOCK_USER.phone}</span>
         </div>
 
-        <Button variant="link" className="self-start">
+        <Button variant="ghost" className="self-start">
           Редактировать
         </Button>
       </section>
 
-      <section className="flex flex-col gap-16 border-b border-soot pb-32">
-        <h2 className="font-gp text-body-sm tracking-body-sm text-soot">Безопасность</h2>
-        <p className="font-gp text-caption tracking-caption text-soot">
+      <section className="flex flex-col gap-16">
+        <h2 className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">Безопасность</h2>
+        <p className="font-lunar text-caption tracking-caption text-stone">
           {MOCK_USER.telegramLinked ? "Telegram привязан" : "Telegram не привязан"}
         </p>
-        <Button variant="link" className="self-start">
+        <Button variant="ghost" className="self-start">
           Привязать Telegram
         </Button>
       </section>
 
-      <section className="flex flex-col gap-16 border-b border-soot pb-32">
-        <h2 className="font-gp text-body-sm tracking-body-sm text-soot">История заказов</h2>
-        <div className="flex flex-col">
+      <section className="flex flex-col gap-16 rounded-lg bg-bone p-24">
+        <h2 className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">История заказов</h2>
+        <div className="flex flex-col gap-16">
           {MOCK_ORDERS.map((order) => (
-            <div key={order.id} className="flex flex-col gap-4 border-t border-soot py-16 first:border-t-0">
-              <div className="flex items-center justify-between font-gp text-body-sm tracking-body-sm text-soot">
+            <div key={order.id} className="flex flex-col gap-4">
+              <div className="flex items-center justify-between font-lunar text-body-sm tracking-body-sm text-obsidian">
                 <span>
                   Заказ #{order.id} от {order.date}
                 </span>
                 <span>{STATUS_LABELS[order.status]}</span>
               </div>
-              <p className="font-gp text-caption tracking-caption text-soot">{order.items}</p>
-              <p className="font-gp text-caption tracking-caption text-soot">{order.total} грн</p>
+              <p className="font-lunar text-caption tracking-caption text-stone">{order.items}</p>
+              <p className="font-lunar text-caption tracking-caption text-stone">{order.total} грн</p>
             </div>
           ))}
         </div>
       </section>
 
-      <Button variant="link" onClick={handleLogout} className="self-start">
+      <Button variant="ghost" onClick={handleLogout} className="self-start">
         Выйти
       </Button>
     </div>

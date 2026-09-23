@@ -30,14 +30,16 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
     <Modal isOpen={isOpen} onClose={onClose}>
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
         <div className="flex items-center justify-between">
-          <span className="font-gp text-body-sm tracking-body-sm text-soot">Оформление заказа</span>
-          <button type="button" onClick={onClose} aria-label="Закрыть" className="text-soot">
+          <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
+            Оформление заказа
+          </span>
+          <button type="button" onClick={onClose} aria-label="Закрыть" className="text-obsidian">
             ✕
           </button>
         </div>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Имя</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Имя</span>
           <Input
             required
             value={name}
@@ -46,8 +48,8 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Телефон</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Телефон</span>
           <Input
             required
             type="tel"
@@ -57,8 +59,8 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Комментарий (необязательно)</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Комментарий (необязательно)</span>
           <Input
             value={comment}
             onChange={(event) => setComment(event.target.value)}
@@ -66,7 +68,7 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
           />
         </label>
 
-        <Button type="submit" variant="solid" className="w-full">
+        <Button type="submit" variant="primary" className="w-full">
           Отправить заявку
         </Button>
       </form>

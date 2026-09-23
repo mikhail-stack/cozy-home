@@ -25,8 +25,8 @@ export default function LoginPage() {
   return (
     <AuthCard title="Вход">
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Email</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Email</span>
           <Input
             required
             type="email"
@@ -36,8 +36,8 @@ export default function LoginPage() {
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Пароль</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Пароль</span>
           <Input
             required
             type="password"
@@ -47,23 +47,23 @@ export default function LoginPage() {
           />
         </label>
 
-        <label className="flex items-center gap-8 font-gp text-caption tracking-caption text-soot">
+        <label className="flex items-center gap-8 font-lunar text-caption tracking-caption text-stone">
           <input
             type="checkbox"
             checked={rememberMe}
             onChange={(event) => setRememberMe(event.target.checked)}
-            className="accent-soot"
+            className="accent-cobalt-ink"
           />
           Запомнить меня
         </label>
 
-        {notice && <p className="font-gp text-caption tracking-caption text-soot">{notice}</p>}
+        {notice && <p className="font-lunar text-caption tracking-caption text-stone">{notice}</p>}
 
-        <Button type="submit" variant="solid">
+        <Button type="submit" variant="primary">
           Войти
         </Button>
 
-        <div className="flex flex-col gap-8 font-gp text-caption tracking-caption text-soot">
+        <div className="flex flex-col gap-8 font-lunar text-caption tracking-caption text-stone">
           <Link href="/register" className="hover:underline">
             Нет аккаунта? Зарегистрироваться
           </Link>

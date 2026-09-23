@@ -9,10 +9,11 @@ import { CheckoutModal } from "@/components/cart/CheckoutModal";
 import { Button } from "@/components/ui/Button";
 
 const primaryLinkClasses =
-  "bg-graphite px-16 py-10 font-gp text-body-sm tracking-body-sm text-chalk hover:opacity-90";
+  "rounded-full bg-cobalt-ink px-24 py-12 font-lunar text-body-sm tracking-body-sm font-medium text-canvas-white hover:opacity-90";
 
 // Смонтирован в корневом layout, всегда в DOM — видимость управляется
-// ui.store (isCartOpen), чтобы работал slide-transition при открытии/закрытии.
+// ui.store (isCartOpen). Без hairline-рамок внутри — разделы разделены
+// поверхностями (Bone для итога), не бордерами (docs/DESIGN.md).
 export function CartDrawer() {
   const isOpen = useUIStore((state) => state.isCartOpen);
   const closeCart = useUIStore((state) => state.closeCart);
@@ -37,7 +38,7 @@ export function CartDrawer() {
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-soot/40 transition-opacity ${
+        className={`fixed inset-0 z-40 bg-obsidian/50 transition-opacity ${
           isOpen ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
         onClick={closeCart}
@@ -45,21 +46,21 @@ export function CartDrawer() {
       />
 
       <aside
-        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-[420px] flex-col border-l border-soot bg-limestone transition-transform ${
+        className={`fixed inset-y-0 right-0 z-50 flex w-full max-w-[420px] flex-col bg-canvas-white transition-transform ${
           isOpen ? "translate-x-0" : "translate-x-full"
         }`}
         aria-hidden={!isOpen}
       >
-        <div className="flex items-center justify-between border-b border-soot px-20 py-16">
-          <span className="font-gp text-body-sm tracking-body-sm text-soot">Корзина</span>
-          <button type="button" onClick={closeCart} aria-label="Закрыть корзину" className="text-soot">
+        <div className="flex items-center justify-between px-24 py-16">
+          <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">Корзина</span>
+          <button type="button" onClick={closeCart} aria-label="Закрыть корзину" className="text-obsidian">
             ✕
           </button>
         </div>
 
         {isSubmitted ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-16 px-20 text-center">
-            <p className="font-gp text-body-sm tracking-body-sm text-soot">
+          <div className="flex flex-1 flex-col items-center justify-center gap-16 px-24 text-center">
+            <p className="font-lunar text-body-sm tracking-body-sm text-obsidian">
               Заявка принята, мы свяжемся с вами
             </p>
             <Link href="/" onClick={handleContinueShopping} className={primaryLinkClasses}>
@@ -67,8 +68,8 @@ export function CartDrawer() {
             </Link>
           </div>
         ) : items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-16 px-20 text-center">
-            <p className="font-gp text-body-sm tracking-body-sm text-soot">Корзина пуста</p>
+          <div className="flex flex-1 flex-col items-center justify-center gap-16 px-24 text-center">
+            <p className="font-lunar text-body-sm tracking-body-sm text-obsidian">Корзина пуста</p>
             <Link href="/" onClick={closeCart} className={primaryLinkClasses}>
               Перейти к товарам
             </Link>
@@ -81,12 +82,12 @@ export function CartDrawer() {
               ))}
             </div>
 
-            <div className="border-t border-soot px-20 py-16">
-              <div className="mb-16 flex items-center justify-between font-gp text-body-sm tracking-body-sm text-soot">
+            <div className="bg-bone px-24 py-16">
+              <div className="mb-16 flex items-center justify-between font-lunar text-body-sm tracking-body-sm text-obsidian">
                 <span>Итого</span>
-                <span>{total} грн</span>
+                <span className="font-medium">{total} грн</span>
               </div>
-              <Button variant="solid" className="w-full" onClick={() => setCheckoutOpen(true)}>
+              <Button variant="primary" className="w-full" onClick={() => setCheckoutOpen(true)}>
                 Оформить заказ
               </Button>
             </div>

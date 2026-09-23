@@ -7,6 +7,9 @@ import { Input } from "@/components/ui/Input";
 
 type StatusFilter = "all" | AdminOrderStatus;
 
+const selectClasses =
+  "rounded-lg border border-graphite bg-ash px-16 py-12 font-lunar text-body-sm tracking-body-sm text-obsidian focus:border-cobalt-ink focus:outline-none";
+
 // Данные — мок, смена статуса не сохраняется между перезагрузками.
 // Реальные заказы появятся с Orders-модулем backend (пункт 18 плана).
 export default function AdminOrdersPage() {
@@ -39,15 +42,15 @@ export default function AdminOrdersPage() {
 
   return (
     <div className="flex flex-col gap-24">
-      <h1 className="font-gp text-subheading tracking-subheading text-soot">Заказы</h1>
+      <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">Заказы</h1>
 
       <div className="flex flex-wrap items-end gap-16">
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Статус</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Статус</span>
           <select
             value={statusFilter}
             onChange={(event) => setStatusFilter(event.target.value as StatusFilter)}
-            className="border-0 border-b border-soot bg-transparent px-0 py-7 font-gp text-body-sm tracking-body-sm text-soot focus:outline-none"
+            className={selectClasses}
           >
             <option value="all">Все статусы</option>
             {Object.entries(STATUS_LABELS).map(([value, label]) => (
@@ -58,36 +61,36 @@ export default function AdminOrdersPage() {
           </select>
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">С даты</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">С даты</span>
           <input
             type="date"
             value={dateFrom}
             onChange={(event) => setDateFrom(event.target.value)}
-            className="border-0 border-b border-soot bg-transparent px-0 py-7 font-gp text-body-sm tracking-body-sm text-soot focus:outline-none"
+            className={selectClasses}
           />
         </label>
 
-        <label className="flex flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">По дату</span>
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">По дату</span>
           <input
             type="date"
             value={dateTo}
             onChange={(event) => setDateTo(event.target.value)}
-            className="border-0 border-b border-soot bg-transparent px-0 py-7 font-gp text-body-sm tracking-body-sm text-soot focus:outline-none"
+            className={selectClasses}
           />
         </label>
 
-        <label className="flex min-w-[200px] flex-1 flex-col gap-6">
-          <span className="font-gp text-caption tracking-caption text-soot">Поиск по имени/телефону</span>
+        <label className="flex min-w-[200px] flex-1 flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">Поиск по имени/телефону</span>
           <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Анна или +380..." />
         </label>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full border-collapse font-gp text-body-sm tracking-body-sm text-soot">
+        <table className="w-full border-collapse font-lunar text-body-sm tracking-body-sm text-obsidian">
           <thead>
-            <tr className="border-b border-soot text-left">
+            <tr className="border-b border-ash text-left">
               <th className="py-8 pr-16">#</th>
               <th className="py-8 pr-16">Имя</th>
               <th className="py-8 pr-16">Телефон</th>
@@ -99,7 +102,7 @@ export default function AdminOrdersPage() {
           </thead>
           <tbody>
             {filtered.map((order) => (
-              <tr key={order.id} className="border-b border-soot">
+              <tr key={order.id} className="border-b border-ash">
                 <td className="py-8 pr-16">{order.id}</td>
                 <td className="py-8 pr-16">{order.name}</td>
                 <td className="py-8 pr-16">{order.phone}</td>
@@ -115,7 +118,7 @@ export default function AdminOrdersPage() {
             ))}
             {filtered.length === 0 && (
               <tr>
-                <td colSpan={7} className="py-16 text-center text-soot">
+                <td colSpan={7} className="py-16 text-center text-stone">
                   Ничего не найдено
                 </td>
               </tr>

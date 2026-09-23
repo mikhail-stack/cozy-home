@@ -40,22 +40,22 @@ export default function AdminAboutPage() {
 
   return (
     <form onSubmit={handleSubmit} className="flex max-w-[480px] flex-col gap-16">
-      <h1 className="font-gp text-subheading tracking-subheading text-soot">О магазине</h1>
+      <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">О магазине</h1>
 
-      <label className="flex flex-col gap-6">
-        <span className="font-gp text-caption tracking-caption text-soot">Заголовок</span>
+      <label className="flex flex-col gap-8">
+        <span className="font-lunar text-caption tracking-caption text-stone">Заголовок</span>
         <Input value={title} onChange={(event) => setTitle(event.target.value)} />
       </label>
 
-      <label className="flex flex-col gap-6">
-        <span className="font-gp text-caption tracking-caption text-soot">Основной текст</span>
+      <label className="flex flex-col gap-8">
+        <span className="font-lunar text-caption tracking-caption text-stone">Основной текст</span>
         <Input value={description} onChange={(event) => setDescription(event.target.value)} />
       </label>
 
-      <div className="flex flex-col gap-16 border-t border-soot pt-16">
-        <span className="font-gp text-body-sm tracking-body-sm text-soot">Преимущества</span>
+      <div className="flex flex-col gap-16 rounded-lg bg-bone p-16">
+        <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">Преимущества</span>
         {advantages.map((advantage, index) => (
-          <div key={index} className="flex flex-col gap-8 border-b border-soot pb-16">
+          <div key={index} className="flex flex-col gap-8">
             <Input
               value={advantage.title}
               onChange={(event) => updateAdvantage(index, "title", event.target.value)}
@@ -70,19 +70,19 @@ export default function AdminAboutPage() {
         ))}
       </div>
 
-      <label className="flex flex-col gap-6">
-        <span className="font-gp text-caption tracking-caption text-soot">Телефон</span>
+      <label className="flex flex-col gap-8">
+        <span className="font-lunar text-caption tracking-caption text-stone">Телефон</span>
         <Input value={phone} onChange={(event) => setPhone(event.target.value)} />
       </label>
 
-      <label className="flex flex-col gap-6">
-        <span className="font-gp text-caption tracking-caption text-soot">Email</span>
+      <label className="flex flex-col gap-8">
+        <span className="font-lunar text-caption tracking-caption text-stone">Email</span>
         <Input value={email} onChange={(event) => setEmail(event.target.value)} />
       </label>
 
-      {notice && <p className="font-gp text-caption tracking-caption text-soot">{notice}</p>}
+      {notice && <p className="font-lunar text-caption tracking-caption text-stone">{notice}</p>}
 
-      <Button type="submit" variant="solid" className="self-start">
+      <Button type="submit" variant="primary" className="self-start">
         Сохранить
       </Button>
     </form>

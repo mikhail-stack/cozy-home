@@ -9,18 +9,19 @@ const SECTIONS = [
 ];
 
 // Доступ только для роли admin (docs/cozy-home-tz.md, раздел 3) —
-// реальная проверка появится вместе с middleware.ts (пункт 12 плана) и
+// реальная проверка появится вместе с proxy.ts (пункт 12 плана) и
 // Auth-модулем backend (пункт 15); пока раздел открыт для демонстрации.
+// Bone-поверхность отделяет сайдбар от контента без рамки.
 export default function AdminLayout({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-[70vh]">
-      <aside className="w-[220px] shrink-0 border-r border-soot px-20 py-32">
+      <aside className="w-[220px] shrink-0 bg-bone px-24 py-32">
         <nav className="flex flex-col gap-16">
           {SECTIONS.map((section) => (
             <Link
               key={section.href}
               href={section.href}
-              className="font-gp text-body-sm tracking-body-sm text-soot hover:underline"
+              className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian hover:underline"
             >
               {section.label}
             </Link>
