@@ -23,8 +23,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
   return (
     <div className="flex flex-col gap-16">
-      <h1 className="font-lunar text-heading-sm tracking-heading-sm text-obsidian">{product.name}</h1>
-      <p className="font-lunar text-body tracking-body font-medium text-obsidian">{product.price} грн</p>
+      <h1 className="font-lunar text-heading-sm tracking-heading-sm text-obsidian">
+        {product.name}
+      </h1>
+      <p className="font-lunar text-body tracking-body font-medium text-obsidian">
+        {product.price} грн
+      </p>
       <p className="font-lunar text-body-sm tracking-body-sm text-stone">{product.description}</p>
       <Button variant="primary" onClick={handleAddToCart} className="self-start">
         {justAdded ? "✓ Добавлено" : "В корзину"}

@@ -54,7 +54,11 @@ export default function AdminUsersPage() {
                 </td>
                 <td className="py-8 pr-16">{user.registeredAt}</td>
                 <td className="py-8">
-                  <button type="button" onClick={() => handleDelete(user)} className="hover:underline">
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(user)}
+                    className="hover:underline"
+                  >
                     Удалить
                   </button>
                 </td>

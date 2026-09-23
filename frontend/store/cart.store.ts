@@ -31,9 +31,7 @@ export const useCartStore = create<CartState>()(
           if (existing) {
             return {
               items: state.items.map((item) =>
-                item.product.id === product.id
-                  ? { ...item, quantity: item.quantity + 1 }
-                  : item
+                item.product.id === product.id ? { ...item, quantity: item.quantity + 1 } : item,
               ),
             };
           }
@@ -52,8 +50,8 @@ export const useCartStore = create<CartState>()(
       replaceItems: (items) => set({ items }),
       clear: () => set({ items: [] }),
     }),
-    { name: "cozy-home-cart" }
-  )
+    { name: "cozy-home-cart" },
+  ),
 );
 
 export const selectCartCount = (state: CartState) =>

@@ -52,8 +52,15 @@ export function CartDrawer() {
         aria-hidden={!isOpen}
       >
         <div className="flex items-center justify-between px-24 py-16">
-          <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">Корзина</span>
-          <button type="button" onClick={closeCart} aria-label="Закрыть корзину" className="text-obsidian">
+          <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
+            Корзина
+          </span>
+          <button
+            type="button"
+            onClick={closeCart}
+            aria-label="Закрыть корзину"
+            className="text-obsidian"
+          >
             ✕
           </button>
         </div>

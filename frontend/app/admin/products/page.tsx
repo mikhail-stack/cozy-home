@@ -81,10 +81,18 @@ export default function AdminProductsPage() {
                 <td className="py-8 pr-16">{product.price} грн</td>
                 <td className="py-8 pr-16">{product.inStock ? "В наличии" : "Нет в наличии"}</td>
                 <td className="py-8 whitespace-nowrap">
-                  <button type="button" onClick={() => openEdit(product)} className="mr-16 hover:underline">
+                  <button
+                    type="button"
+                    onClick={() => openEdit(product)}
+                    className="mr-16 hover:underline"
+                  >
                     Редактировать
                   </button>
-                  <button type="button" onClick={() => handleDelete(product)} className="hover:underline">
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(product)}
+                    className="hover:underline"
+                  >
                     Удалить
                   </button>
                 </td>

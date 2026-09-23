@@ -66,7 +66,11 @@ export function ProductFormModal({ isOpen, onClose, onSave, product }: ProductFo
 
         <label className="flex flex-col gap-8">
           <span className="font-lunar text-caption tracking-caption text-stone">Описание</span>
-          <Input required value={description} onChange={(event) => setDescription(event.target.value)} />
+          <Input
+            required
+            value={description}
+            onChange={(event) => setDescription(event.target.value)}
+          />
         </label>
 
         <label className="flex flex-col gap-8">

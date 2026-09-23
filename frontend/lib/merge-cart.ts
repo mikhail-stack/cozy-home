@@ -18,7 +18,7 @@ export function mergeCartItems(localItems: CartItem[], serverItems: CartItem[]):
     const existing = merged.get(item.product.id);
     merged.set(
       item.product.id,
-      existing ? { ...existing, quantity: existing.quantity + item.quantity } : { ...item }
+      existing ? { ...existing, quantity: existing.quantity + item.quantity } : { ...item },
     );
   }
 

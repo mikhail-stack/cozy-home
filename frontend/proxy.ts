@@ -16,7 +16,9 @@ const REFRESH_TOKEN_COOKIE = "refresh_token";
 // требует знать роль из токена — добавится, когда появится верификация
 // JWT (тоже пункт 15).
 export function proxy(request: NextRequest) {
-  const isProtected = PROTECTED_PREFIXES.some((prefix) => request.nextUrl.pathname.startsWith(prefix));
+  const isProtected = PROTECTED_PREFIXES.some((prefix) =>
+    request.nextUrl.pathname.startsWith(prefix),
+  );
 
   if (!isProtected) {
     return NextResponse.next();

@@ -60,7 +60,9 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
         </label>
 
         <label className="flex flex-col gap-8">
-          <span className="font-lunar text-caption tracking-caption text-stone">Комментарий (необязательно)</span>
+          <span className="font-lunar text-caption tracking-caption text-stone">
+            Комментарий (необязательно)
+          </span>
           <Input
             value={comment}
             onChange={(event) => setComment(event.target.value)}

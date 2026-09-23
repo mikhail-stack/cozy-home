@@ -10,10 +10,16 @@ interface AdvantageDraft {
 }
 
 const INITIAL_ADVANTAGES: AdvantageDraft[] = [
-  { title: "Натуральные материалы", text: "Лён, керамика, дерево, соевый воск — никакой пластиковой имитации." },
+  {
+    title: "Натуральные материалы",
+    text: "Лён, керамика, дерево, соевый воск — никакой пластиковой имитации.",
+  },
   { title: "Скандинавский дизайн", text: "Лаконичные формы и спокойные тона для уютного дома." },
   { title: "Быстрая доставка", text: "Оперативно передаём заказ в доставку по всей Украине." },
-  { title: "Забота о клиентах", text: "На связи в Telegram и по телефону — поможем с выбором и заказом." },
+  {
+    title: "Забота о клиентах",
+    text: "На связи в Telegram и по телефону — поможем с выбором и заказом.",
+  },
 ];
 
 // Реальное сохранение (и отображение изменений на /about) появится
@@ -22,7 +28,7 @@ const INITIAL_ADVANTAGES: AdvantageDraft[] = [
 export default function AdminAboutPage() {
   const [title, setTitle] = useState("Cozy Home");
   const [description, setDescription] = useState(
-    "Cozy Home — интернет-магазин товаров для дома и декора в скандинавском / минималистичном стиле."
+    "Cozy Home — интернет-магазин товаров для дома и декора в скандинавском / минималистичном стиле.",
   );
   const [advantages, setAdvantages] = useState<AdvantageDraft[]>(INITIAL_ADVANTAGES);
   const [phone, setPhone] = useState("+380 00 000 00 00");
@@ -30,7 +36,9 @@ export default function AdminAboutPage() {
   const [notice, setNotice] = useState<string | null>(null);
 
   const updateAdvantage = (index: number, field: keyof AdvantageDraft, value: string) => {
-    setAdvantages((current) => current.map((item, i) => (i === index ? { ...item, [field]: value } : item)));
+    setAdvantages((current) =>
+      current.map((item, i) => (i === index ? { ...item, [field]: value } : item)),
+    );
   };
 
   const handleSubmit = (event: FormEvent) => {
@@ -53,7 +61,9 @@ export default function AdminAboutPage() {
       </label>
 
       <div className="flex flex-col gap-16 rounded-lg bg-bone p-16">
-        <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">Преимущества</span>
+        <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
+          Преимущества
+        </span>
         {advantages.map((advantage, index) => (
           <div key={index} className="flex flex-col gap-8">
             <Input

@@ -23,7 +23,9 @@ export function CartItemRow({ item }: CartItemRowProps) {
       </div>
 
       <div className="flex flex-1 flex-col gap-4">
-        <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">{item.product.name}</span>
+        <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">
+          {item.product.name}
+        </span>
         <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">
           {item.product.price} грн
         </span>

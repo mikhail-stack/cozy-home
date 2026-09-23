@@ -23,8 +23,9 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
   const [category, setCategory] = useState<CategoryOption>("all");
 
   const filtered = useMemo(
-    () => (category === "all" ? products : products.filter((product) => product.category === category)),
-    [products, category]
+    () =>
+      category === "all" ? products : products.filter((product) => product.category === category),
+    [products, category],
   );
 
   return (

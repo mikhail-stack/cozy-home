@@ -37,7 +37,9 @@ export default function ResetPasswordPage() {
     <AuthCard title="Новый пароль">
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
         <label className="flex flex-col gap-8">
-          <span className="font-lunar text-caption tracking-caption text-stone">Код из Telegram</span>
+          <span className="font-lunar text-caption tracking-caption text-stone">
+            Код из Telegram
+          </span>
           <Input
             required
             value={code}
@@ -58,7 +60,9 @@ export default function ResetPasswordPage() {
         </label>
 
         <label className="flex flex-col gap-8">
-          <span className="font-lunar text-caption tracking-caption text-stone">Подтверждение пароля</span>
+          <span className="font-lunar text-caption tracking-caption text-stone">
+            Подтверждение пароля
+          </span>
           <Input
             required
             type="password"
@@ -75,7 +79,10 @@ export default function ResetPasswordPage() {
           Сохранить пароль
         </Button>
 
-        <Link href="/login" className="font-lunar text-caption tracking-caption text-stone hover:underline">
+        <Link
+          href="/login"
+          className="font-lunar text-caption tracking-caption text-stone hover:underline"
+        >
           Вернуться ко входу
         </Link>
       </form>

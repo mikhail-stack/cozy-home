@@ -37,7 +37,12 @@ export default function RegisterPage() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-16">
         <label className="flex flex-col gap-8">
           <span className="font-lunar text-caption tracking-caption text-stone">Имя</span>
-          <Input required value={name} onChange={(event) => setName(event.target.value)} placeholder="Ваше имя" />
+          <Input
+            required
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="Ваше имя"
+          />
         </label>
 
         <label className="flex flex-col gap-8">
@@ -63,7 +68,9 @@ export default function RegisterPage() {
         </label>
 
         <label className="flex flex-col gap-8">
-          <span className="font-lunar text-caption tracking-caption text-stone">Подтверждение пароля</span>
+          <span className="font-lunar text-caption tracking-caption text-stone">
+            Подтверждение пароля
+          </span>
           <Input
             required
             type="password"
@@ -80,7 +87,10 @@ export default function RegisterPage() {
           Зарегистрироваться
         </Button>
 
-        <Link href="/login" className="font-lunar text-caption tracking-caption text-stone hover:underline">
+        <Link
+          href="/login"
+          className="font-lunar text-caption tracking-caption text-stone hover:underline"
+        >
           Уже есть аккаунт? Войти
         </Link>
       </form>

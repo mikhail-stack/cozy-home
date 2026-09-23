@@ -80,7 +80,10 @@ export default function ForgotPasswordPage() {
           Отправить код
         </Button>
 
-        <Link href="/login" className="font-lunar text-caption tracking-caption text-stone hover:underline">
+        <Link
+          href="/login"
+          className="font-lunar text-caption tracking-caption text-stone hover:underline"
+        >
           Вернуться ко входу
         </Link>
       </form>

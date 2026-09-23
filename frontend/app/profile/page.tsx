@@ -29,7 +29,9 @@ export default function ProfilePage() {
   return (
     <div className="mx-auto flex max-w-[720px] flex-col gap-32 px-24 py-32">
       <section className="flex flex-col gap-16">
-        <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">Личный кабинет</h1>
+        <h1 className="font-lunar text-subheading tracking-subheading text-obsidian">
+          Личный кабинет
+        </h1>
 
         <div className="flex flex-col gap-4 font-lunar text-body-sm tracking-body-sm text-obsidian">
           <span>{MOCK_USER.name}</span>
@@ -43,7 +45,9 @@ export default function ProfilePage() {
       </section>
 
       <section className="flex flex-col gap-16">
-        <h2 className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">Безопасность</h2>
+        <h2 className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
+          Безопасность
+        </h2>
         <p className="font-lunar text-caption tracking-caption text-stone">
           {MOCK_USER.telegramLinked ? "Telegram привязан" : "Telegram не привязан"}
         </p>
@@ -53,7 +57,9 @@ export default function ProfilePage() {
       </section>
 
       <section className="flex flex-col gap-16 rounded-lg bg-bone p-24">
-        <h2 className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">История заказов</h2>
+        <h2 className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
+          История заказов
+        </h2>
         <div className="flex flex-col gap-16">
           {MOCK_ORDERS.map((order) => (
             <div key={order.id} className="flex flex-col gap-4">
@@ -64,7 +70,9 @@ export default function ProfilePage() {
                 <span>{STATUS_LABELS[order.status]}</span>
               </div>
               <p className="font-lunar text-caption tracking-caption text-stone">{order.items}</p>
-              <p className="font-lunar text-caption tracking-caption text-stone">{order.total} грн</p>
+              <p className="font-lunar text-caption tracking-caption text-stone">
+                {order.total} грн
+              </p>
             </div>
           ))}
         </div>

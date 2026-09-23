@@ -10,7 +10,9 @@ export function RelatedProducts({ products }: RelatedProductsProps) {
 
   return (
     <section className="flex flex-col gap-24">
-      <h2 className="font-lunar text-heading-sm tracking-heading-sm text-obsidian">Похожие товары</h2>
+      <h2 className="font-lunar text-heading-sm tracking-heading-sm text-obsidian">
+        Похожие товары
+      </h2>
       <div className="grid grid-cols-2 gap-24 sm:grid-cols-4">
         {products.map((product) => (
           <ProductCard key={product.id} product={product} />

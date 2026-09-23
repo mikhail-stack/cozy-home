@@ -34,7 +34,9 @@ export function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
         <div className="flex flex-col gap-4">
-          <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">{product.name}</span>
+          <span className="font-lunar text-body-sm tracking-body-sm text-obsidian">
+            {product.name}
+          </span>
           <span className="font-lunar text-body-sm tracking-body-sm font-medium text-obsidian">
             {product.price} грн
           </span>

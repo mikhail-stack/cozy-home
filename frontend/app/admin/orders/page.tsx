@@ -1,7 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { MOCK_ADMIN_ORDERS, STATUS_LABELS, type AdminOrder, type AdminOrderStatus } from "@/lib/mock-orders";
+import {
+  MOCK_ADMIN_ORDERS,
+  STATUS_LABELS,
+  type AdminOrder,
+  type AdminOrderStatus,
+} from "@/lib/mock-orders";
 import { OrderDetailsModal } from "@/components/admin/OrderDetailsModal";
 import { Input } from "@/components/ui/Input";
 
@@ -36,8 +41,12 @@ export default function AdminOrdersPage() {
   }, [orders, statusFilter, dateFrom, dateTo, search]);
 
   const handleStatusChange = (id: number, status: AdminOrderStatus) => {
-    setOrders((current) => current.map((order) => (order.id === id ? { ...order, status } : order)));
-    setSelectedOrder((current) => (current && current.id === id ? { ...current, status } : current));
+    setOrders((current) =>
+      current.map((order) => (order.id === id ? { ...order, status } : order)),
+    );
+    setSelectedOrder((current) =>
+      current && current.id === id ? { ...current, status } : current,
+    );
   };
 
   return (
@@ -82,8 +91,14 @@ export default function AdminOrdersPage() {
         </label>
 
         <label className="flex min-w-[200px] flex-1 flex-col gap-8">
-          <span className="font-lunar text-caption tracking-caption text-stone">Поиск по имени/телефону</span>
-          <Input value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Анна или +380..." />
+          <span className="font-lunar text-caption tracking-caption text-stone">
+            Поиск по имени/телефону
+          </span>
+          <Input
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+            placeholder="Анна или +380..."
+          />
         </label>
       </div>
 
@@ -110,7 +125,11 @@ export default function AdminOrdersPage() {
                 <td className="py-8 pr-16">{order.date}</td>
                 <td className="py-8 pr-16">{STATUS_LABELS[order.status]}</td>
                 <td className="py-8">
-                  <button type="button" onClick={() => setSelectedOrder(order)} className="hover:underline">
+                  <button
+                    type="button"
+                    onClick={() => setSelectedOrder(order)}
+                    className="hover:underline"
+                  >
                     Просмотр
                   </button>
                 </td>
