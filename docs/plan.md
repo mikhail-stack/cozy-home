@@ -20,6 +20,8 @@
 
 ## Backend и база данных
 
+> ⚠️ Тесты для каждого модуля (14-22) пишутся **вместе с ним**, не отдельным пунктом потом — см. `CLAUDE.md`. Стек — Vitest + supertest (см. `docs/architecture.md`, раздел 8).
+
 14. `schema.prisma`: модели User, Product, Order, OrderItem, CartItem + первая миграция
 15. Auth-модуль: регистрация, логин, JWT (access/refresh), middleware проверки роли
 16. Products-модуль: CRUD товаров, загрузка изображений в Cloudinary
