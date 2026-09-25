@@ -5,6 +5,11 @@ dist/
 .next/
 out/
 
+# Playwright (frontend/e2e) — отчёты и артефакты прогонов, не исходники
+test-results/
+playwright-report/
+blob-report/
+
 # Переменные окружения
 .env
 .env.*.local
