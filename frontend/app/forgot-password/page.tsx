@@ -45,7 +45,7 @@ export default function ForgotPasswordPage() {
 
           <Link
             href="/reset-password"
-            className="rounded-full bg-cobalt-ink px-24 py-12 text-center font-lunar text-body-sm tracking-body-sm font-medium text-canvas-white hover:opacity-90"
+            className="rounded-md bg-cobalt-ink px-24 py-12 text-center font-lunar text-body-sm tracking-body-sm font-medium text-canvas-white hover:opacity-90"
           >
             Я написал боту
           </Link>

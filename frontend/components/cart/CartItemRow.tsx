@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { CartItem } from "@/store/cart.store";
 import { useCartStore } from "@/store/cart.store";
 
@@ -10,16 +11,32 @@ interface CartItemRowProps {
 // Ash-разделитель между строками — для функционального списка (в отличие
 // от маркетинговых карточек) лёгкая граница оставлена ради читаемости,
 // аналогично таблицам в админке.
+// data-testid на строке — в e2e/cart.spec.ts нужно менять количество и
+// удалять конкретный товар при 2+ товарах в корзине, где aria-label
+// "Уменьшить/Увеличить количество" одинаковый у каждой строки.
 export function CartItemRow({ item }: CartItemRowProps) {
   const setQuantity = useCartStore((state) => state.setQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
   return (
-    <div className="flex gap-12 border-b border-ash px-24 py-16">
-      <div className="flex h-[64px] w-[64px] shrink-0 items-center justify-center bg-bone">
-        <span className="font-lunar text-subheading text-obsidian">
-          {item.product.name.charAt(0).toUpperCase()}
-        </span>
+    <div
+      className="flex gap-12 border-b border-ash px-24 py-16"
+      data-testid={`cart-item-${item.product.id}`}
+    >
+      <div className="relative flex h-[64px] w-[64px] shrink-0 items-center justify-center bg-bone">
+        {item.product.images ? (
+          <Image
+            src={item.product.images.main}
+            alt={item.product.name}
+            fill
+            sizes="64px"
+            className="object-cover"
+          />
+        ) : (
+          <span className="font-lunar text-subheading text-obsidian">
+            {item.product.name.charAt(0).toUpperCase()}
+          </span>
+        )}
       </div>
 
       <div className="flex flex-1 flex-col gap-4">

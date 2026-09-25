@@ -9,7 +9,7 @@ import { CheckoutModal } from "@/components/cart/CheckoutModal";
 import { Button } from "@/components/ui/Button";
 
 const primaryLinkClasses =
-  "rounded-full bg-cobalt-ink px-24 py-12 font-lunar text-body-sm tracking-body-sm font-medium text-canvas-white hover:opacity-90";
+  "rounded-md bg-cobalt-ink px-24 py-12 font-lunar text-body-sm tracking-body-sm font-medium text-canvas-white hover:opacity-90";
 
 // Смонтирован в корневом layout, всегда в DOM — видимость управляется
 // ui.store (isCartOpen). Без hairline-рамок внутри — разделы разделены
@@ -92,7 +92,9 @@ export function CartDrawer() {
             <div className="bg-bone px-24 py-16">
               <div className="mb-16 flex items-center justify-between font-lunar text-body-sm tracking-body-sm text-obsidian">
                 <span>Итого</span>
-                <span className="font-medium">{total} грн</span>
+                <span className="font-medium" data-testid="cart-total">
+                  {total} грн
+                </span>
               </div>
               <Button variant="primary" className="w-full" onClick={() => setCheckoutOpen(true)}>
                 Оформить заказ

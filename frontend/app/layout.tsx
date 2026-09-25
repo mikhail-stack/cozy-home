@@ -14,9 +14,15 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ru" className={inter.variable}>
-      <body>
+      {/* suppressHydrationWarning — браузерные расширения (например,
+          ColorZilla) добавляют атрибуты на body до гидратации React,
+          что иначе всегда триггерит ложное предупреждение о mismatch. */}
+      {/* flex-col + min-h-screen + main flex-1 — футер прижат к низу
+          вьюпорта на страницах с малым количеством контента (например,
+          пустое "Избранное"), а не "подвисает" сразу под контентом. */}
+      <body suppressHydrationWarning className="flex min-h-screen flex-col">
         <Header />
-        <main>{children}</main>
+        <main className="flex-1">{children}</main>
         <Footer />
         <CartDrawer />
       </body>

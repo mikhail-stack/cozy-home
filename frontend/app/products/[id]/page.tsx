@@ -26,7 +26,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       <Breadcrumbs product={product} />
 
       <div className="grid gap-32 md:grid-cols-2">
-        <ProductGallery letter={product.name.charAt(0).toUpperCase()} />
+        <ProductGallery letter={product.name.charAt(0).toUpperCase()} images={product.images} />
         <ProductInfo product={product} />
       </div>
 

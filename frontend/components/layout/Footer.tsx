@@ -1,5 +1,6 @@
 const shopLinks = [
   { href: "/about", label: "О магазине" },
+  { href: "/favorites", label: "Избранное" },
   { href: "/profile", label: "Личный кабинет" },
 ];
 

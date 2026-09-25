@@ -9,8 +9,8 @@ interface CategoryFilterProps<T extends string> {
   onSelect: (value: T) => void;
 }
 
-// Пилюли — единственная форма для кнопок/тегов в системе ("Use 9999px
-// radius on all buttons, tags, and pill controls", docs/DESIGN.md).
+// Радиус синхронизирован с Button.tsx (rounded-md) — отступление от
+// pill-формы, заданной в docs/DESIGN.md.
 // Активная категория — Cobalt Ink: "active state" входит в список из
 // трёх разрешённых применений акцента.
 export function CategoryFilter<T extends string>({
@@ -25,7 +25,7 @@ export function CategoryFilter<T extends string>({
           key={category.value}
           type="button"
           onClick={() => onSelect(category.value)}
-          className={`rounded-full px-24 py-8 font-lunar text-body-sm tracking-body-sm font-medium transition-colors ${
+          className={`rounded-md px-24 py-8 font-lunar text-body-sm tracking-body-sm font-medium transition-colors ${
             selected === category.value
               ? "bg-cobalt-ink text-canvas-white"
               : "bg-ash text-obsidian hover:bg-obsidian/10"
