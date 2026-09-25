@@ -1,14 +1,13 @@
 import { HttpError } from "../../lib/errors.js";
+import { hasErrorCode } from "../../lib/prisma-errors.js";
 import { prisma } from "../../lib/prisma.js";
 import { uploadImage } from "../../lib/cloudinary.js";
+import { withDerivedInStock } from "./stock.js";
 import type { CreateProductInput, UpdateProductInput } from "./products.schemas.js";
 
 type Category = CreateProductInput["category"];
 
 const notFound = () => new HttpError(404, "Товар не найден");
-
-const hasCode = (error: unknown, code: string) =>
-  typeof error === "object" && error !== null && "code" in error && error.code === code;
 
 // createdAt, потом id — стабильный порядок для каталога.
 export const list = (category?: Category) =>
@@ -23,14 +22,15 @@ export async function getById(id: string) {
   return product;
 }
 
-export const create = (input: CreateProductInput) => prisma.product.create({ data: input });
+export const create = (input: CreateProductInput) =>
+  prisma.product.create({ data: withDerivedInStock(input) });
 
 export async function update(id: string, input: UpdateProductInput) {
   try {
-    return await prisma.product.update({ where: { id }, data: input });
+    return await prisma.product.update({ where: { id }, data: withDerivedInStock(input) });
   } catch (error) {
     // P2025 — запись для обновления не найдена.
-    throw hasCode(error, "P2025") ? notFound() : error;
+    throw hasErrorCode(error, "P2025") ? notFound() : error;
   }
 }
 
@@ -45,8 +45,8 @@ export async function remove(id: string) {
       prisma.product.delete({ where: { id } }),
     ]);
   } catch (error) {
-    if (hasCode(error, "P2025")) throw notFound();
-    if (hasCode(error, "P2003")) {
+    if (hasErrorCode(error, "P2025")) throw notFound();
+    if (hasErrorCode(error, "P2003")) {
       throw new HttpError(409, "Товар есть в заказах — снимите его с наличия вместо удаления");
     }
     throw error;

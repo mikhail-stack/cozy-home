@@ -137,6 +137,8 @@ Order       1---N  OrderItem
 **Логин с товарами в гостевой корзине:**
 `POST /api/auth/login` → фронт получает access token + user → `lib/merge-cart.ts` отправляет текущий `localStorage`-список в `POST /api/cart/merge` → бэкенд объединяет с существующими `CartItem` пользователя → фронт заменяет `cart.store` данными с сервера.
 
+Реализовано (пункт 17): все эндпоинты `/api/cart` возвращают корзину в форме `{ items: [{ product, quantity }] }` — её можно сразу передавать в `cart.store.replaceItems()`; `merge` суммирует количества, пропускает устаревшие строки гостевой корзины (товар удалён или закончился) и возвращает их id в `skipped`; на одну строку — не больше 99 шт.
+
 **Восстановление пароля через Telegram:**
 `/forgot-password` → `POST /api/auth/forgot-password` → если `telegramChatId` есть — `telegram.service` шлёт код через бота, код (с TTL 15 мин) хранится в таблице/кэше рядом с `User`; если нет — фронт показывает инструкцию по `/link email` → бот-обработчик команды сохраняет `chat_id`.
 

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { CartItem } from "@/store/cart.store";
 import { useCartStore } from "@/store/cart.store";
+import { maxCartQuantity } from "@/lib/stock";
 
 interface CartItemRowProps {
   item: CartItem;
@@ -60,6 +61,7 @@ export function CartItemRow({ item }: CartItemRowProps) {
             <button
               type="button"
               onClick={() => setQuantity(item.product.id, item.quantity + 1)}
+              disabled={item.quantity >= maxCartQuantity(item.product)}
               aria-label="Увеличить количество"
             >
               +

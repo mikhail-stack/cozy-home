@@ -66,6 +66,11 @@ model Product {
   // (пункт 16 плана: Products-модуль + Cloudinary).
   images      String[]
   inStock     Boolean         @default(true)
+  // Остаток на складе. В ТЗ есть только чекбокс «В наличии» (раздел 9), поэтому
+  // учёт остатка необязателен: null — не считаем, доступность задаёт один inStock;
+  // число — точный учёт: корзина не даёт взять больше остатка, а inStock
+  // выводится из него (stock > 0) при записи и при списании со склада.
+  stock       Int?
   createdAt   DateTime        @default(now())
 
   cartItems  CartItem[]

@@ -21,6 +21,7 @@ export const PRODUCTS: Product[] = [
     description:
       "Ручная работа из соевого воска, аромат лаванды и ванили, время горения — до 40 часов.",
     inStock: true,
+    stock: 12,
     images: {
       main: "/products/soy-wax-main.avif",
       detail: "/products/soy-wax-detail.avif",
@@ -39,6 +40,7 @@ export const PRODUCTS: Product[] = [
     price: 580,
     description: "Аромадиффузор с деревянными палочками, свежий хвойный аромат для дома.",
     inStock: true,
+    stock: 3,
     images: {
       main: "/products/reed-diffuser-main.avif",
       detail: "/products/reed-diffuser-detail.avif",
@@ -115,6 +117,7 @@ export const PRODUCTS: Product[] = [
     price: 390,
     description: "Кружка ручной работы из керамики — каждая в своём неповторимом виде.",
     inStock: true,
+    stock: 25,
     images: singlePhoto("/products/ceramic-mug.avif"),
     specs: [
       { label: "Объём", value: "350 мл" },

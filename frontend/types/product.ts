@@ -18,6 +18,9 @@ export interface Product {
   price: number;
   description: string;
   inStock: boolean;
+  // Остаток на складе. null/не задан — не учитывается (тогда доступность
+  // задаёт только inStock); число — точный учёт, см. lib/stock.ts.
+  stock?: number | null;
   images?: ProductImages;
   specs?: ProductSpec[];
 }

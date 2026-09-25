@@ -79,7 +79,13 @@ export default function AdminProductsPage() {
                 <td className="py-8 pr-16">{product.name}</td>
                 <td className="py-8 pr-16">{CATEGORY_LABELS[product.category]}</td>
                 <td className="py-8 pr-16">{product.price} грн</td>
-                <td className="py-8 pr-16">{product.inStock ? "В наличии" : "Нет в наличии"}</td>
+                <td className="py-8 pr-16">
+                  {product.inStock
+                    ? typeof product.stock === "number"
+                      ? `В наличии (${product.stock} шт.)`
+                      : "В наличии"
+                    : "Нет в наличии"}
+                </td>
                 <td className="py-8 whitespace-nowrap">
                   <button
                     type="button"

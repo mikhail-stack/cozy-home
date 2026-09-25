@@ -3,6 +3,7 @@
 import { useState } from "react";
 import type { Product } from "@/types/product";
 import { useCartStore } from "@/store/cart.store";
+import { maxCartQuantity } from "@/lib/stock";
 import { Button } from "@/components/ui/Button";
 import { FavoriteButton } from "@/components/ui/FavoriteButton";
 
@@ -18,11 +19,21 @@ interface ProductInfoProps {
 // списках корзины/админки, а не маркетинговая карточка.
 export function ProductInfo({ product }: ProductInfoProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const inCart = useCartStore(
+    (state) => state.items.find((item) => item.product.id === product.id)?.quantity ?? 0,
+  );
   const [quantity, setQuantity] = useState(1);
   const [justAdded, setJustAdded] = useState(false);
 
+  // Сколько ещё можно положить с учётом остатка и того, что уже в корзине
+  // (см. lib/stock.ts). Выбранное количество не может его превысить.
+  const remaining = maxCartQuantity(product) - inCart;
+  const canAdd = remaining > 0;
+  const selected = Math.min(quantity, Math.max(remaining, 1));
+
   const handleAddToCart = () => {
-    addItem(product, quantity);
+    addItem(product, selected);
+    setQuantity(1);
     setJustAdded(true);
     setTimeout(() => setJustAdded(false), 1000);
   };
@@ -44,9 +55,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
               key={spec.label}
               className="flex items-center justify-between border-b border-ash py-8"
             >
-              <dt className="font-lunar text-caption tracking-caption text-stone">
-                {spec.label}
-              </dt>
+              <dt className="font-lunar text-caption tracking-caption text-stone">{spec.label}</dt>
               <dd className="font-lunar text-body-sm tracking-body-sm text-obsidian">
                 {spec.value}
               </dd>
@@ -58,25 +67,30 @@ export function ProductInfo({ product }: ProductInfoProps) {
       {!product.inStock && (
         <p className="font-lunar text-caption tracking-caption text-stone">Нет в наличии</p>
       )}
+      {product.inStock && typeof product.stock === "number" && product.stock <= 5 && (
+        <p className="font-lunar text-caption tracking-caption text-stone">
+          Осталось {product.stock} шт.
+        </p>
+      )}
 
       <div className="flex items-center gap-16">
         <div className="flex items-center gap-12 rounded-md border border-obsidian px-16 py-12">
           <button
             type="button"
-            onClick={() => setQuantity((value) => Math.max(1, value - 1))}
-            disabled={!product.inStock}
+            onClick={() => setQuantity(Math.max(1, selected - 1))}
+            disabled={!canAdd}
             aria-label="Уменьшить количество"
             className="font-lunar text-body-sm tracking-body-sm text-obsidian disabled:opacity-50"
           >
             −
           </button>
           <span className="inline-block w-16 text-center font-lunar text-body-sm tracking-body-sm tabular-nums text-obsidian">
-            {quantity}
+            {selected}
           </span>
           <button
             type="button"
-            onClick={() => setQuantity((value) => value + 1)}
-            disabled={!product.inStock}
+            onClick={() => setQuantity(Math.min(remaining, selected + 1))}
+            disabled={!canAdd || selected >= remaining}
             aria-label="Увеличить количество"
             className="font-lunar text-body-sm tracking-body-sm text-obsidian disabled:opacity-50"
           >
@@ -87,10 +101,14 @@ export function ProductInfo({ product }: ProductInfoProps) {
         <Button
           variant="primary"
           onClick={handleAddToCart}
-          disabled={!product.inStock}
+          disabled={!canAdd}
           className="self-start"
         >
-          {justAdded ? "✓ Добавлено" : "В корзину"}
+          {justAdded
+            ? "✓ Добавлено"
+            : product.inStock && !canAdd
+              ? "Максимум в корзине"
+              : "В корзину"}
         </Button>
 
         <FavoriteButton

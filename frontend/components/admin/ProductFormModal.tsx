@@ -5,6 +5,7 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import type { Product, ProductCategory } from "@/types/product";
+import { withDerivedInStock } from "@/lib/stock";
 
 const CATEGORY_OPTIONS: { value: ProductCategory; label: string }[] = [
   { value: "candles", label: "Свечи и ароматы" },
@@ -34,17 +35,23 @@ export function ProductFormModal({ isOpen, onClose, onSave, product }: ProductFo
   const [price, setPrice] = useState(product ? String(product.price) : "");
   const [category, setCategory] = useState<ProductCategory>(product?.category ?? "candles");
   const [inStock, setInStock] = useState(product?.inStock ?? true);
+  // Пустое поле — остаток не учитывается (как в ТЗ: только чекбокс «В наличии»).
+  const [stock, setStock] = useState(product?.stock != null ? String(product.stock) : "");
+  const isStockTracked = stock.trim() !== "";
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    onSave({
-      id: product?.id ?? `product-${Date.now()}`,
-      name,
-      description,
-      price: Number(price),
-      category,
-      inStock,
-    });
+    onSave(
+      withDerivedInStock({
+        id: product?.id ?? `product-${Date.now()}`,
+        name,
+        description,
+        price: Number(price),
+        category,
+        inStock,
+        stock: isStockTracked ? Number(stock) : null,
+      }),
+    );
   };
 
   return (
@@ -106,10 +113,24 @@ export function ProductFormModal({ isOpen, onClose, onSave, product }: ProductFo
           </div>
         </div>
 
+        <label className="flex flex-col gap-8">
+          <span className="font-lunar text-caption tracking-caption text-stone">
+            Остаток на складе, шт. (пусто — не учитывать)
+          </span>
+          <Input
+            type="number"
+            min={0}
+            value={stock}
+            onChange={(event) => setStock(event.target.value)}
+            placeholder="Не учитывать"
+          />
+        </label>
+
         <label className="flex items-center gap-8 font-lunar text-caption tracking-caption text-stone">
           <input
             type="checkbox"
-            checked={inStock}
+            checked={isStockTracked ? Number(stock) > 0 : inStock}
+            disabled={isStockTracked}
             onChange={(event) => setInStock(event.target.checked)}
             className="accent-cobalt-ink"
           />

@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import { env } from "../../config/env.js";
 import { HttpError } from "../../lib/errors.js";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../lib/jwt.js";
+import { hasErrorCode } from "../../lib/prisma-errors.js";
 import { prisma } from "../../lib/prisma.js";
 import type { LoginInput, RegisterInput } from "./auth.schemas.js";
 
@@ -35,9 +36,6 @@ const toPublicUser = (user: PublicUser): PublicUser => ({
   role: user.role,
 });
 
-const isUniqueViolation = (error: unknown) =>
-  typeof error === "object" && error !== null && "code" in error && error.code === "P2002";
-
 function issueTokens(user: PublicUser, persistent: boolean): AuthResult {
   const refreshTtlSeconds = persistent ? env.JWT_REFRESH_EXPIRES_IN : SHORT_SESSION_TTL_SECONDS;
   const payload = { sub: user.id, role: user.role };
@@ -70,7 +68,7 @@ export async function register(input: RegisterInput): Promise<AuthResult> {
     return issueTokens(user, false);
   } catch (error) {
     // Гонка: два запроса с одним email прошли проверку выше одновременно.
-    throw isUniqueViolation(error) ? emailTaken : error;
+    throw hasErrorCode(error, "P2002") ? emailTaken : error;
   }
 }
 

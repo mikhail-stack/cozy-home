@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Product } from "@/types/product";
 import { useCartStore } from "@/store/cart.store";
+import { maxCartQuantity } from "@/lib/stock";
 import { Button } from "@/components/ui/Button";
 import { FavoriteButton } from "@/components/ui/FavoriteButton";
 
@@ -28,6 +29,12 @@ interface ProductCardProps {
 // однозначно не найти.
 export function ProductCard({ product }: ProductCardProps) {
   const addItem = useCartStore((state) => state.addItem);
+  const inCart = useCartStore(
+    (state) => state.items.find((item) => item.product.id === product.id)?.quantity ?? 0,
+  );
+  // Недоступный товар и товар, уже взятый в корзину на весь остаток, —
+  // кнопка неактивна (правила — lib/stock.ts).
+  const canAdd = maxCartQuantity(product) - inCart > 0;
   const [justAdded, setJustAdded] = useState(false);
 
   const handleAddToCart = () => {
@@ -56,10 +63,7 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
           </div>
         </Link>
-        <FavoriteButton
-          productId={product.id}
-          className="absolute right-8 top-8 h-32 w-32"
-        />
+        <FavoriteButton productId={product.id} className="absolute right-8 top-8 h-32 w-32" />
       </div>
 
       <Link href={`/products/${product.id}`} className="flex flex-1 flex-col">
@@ -69,11 +73,9 @@ export function ProductCard({ product }: ProductCardProps) {
       </Link>
 
       <div className="flex flex-col gap-8">
-        <span className="font-lunar text-[18px] font-[800] text-obsidian">
-          {product.price} грн
-        </span>
-        <Button variant="primary" onClick={handleAddToCart} className="w-full">
-          {justAdded ? "✓ Добавлено" : "В корзину"}
+        <span className="font-lunar text-[18px] font-[800] text-obsidian">{product.price} грн</span>
+        <Button variant="primary" onClick={handleAddToCart} disabled={!canAdd} className="w-full">
+          {justAdded ? "✓ Добавлено" : !product.inStock ? "Нет в наличии" : "В корзину"}
         </Button>
       </div>
     </div>

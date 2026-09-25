@@ -9,6 +9,14 @@ const required = (message: string) => ({ required_error: message, invalid_type_e
 // Только https-URL (Cloudinary) или путь от корня сайта — статические фото
 // из frontend/public (например, "/products/soy-wax-main.avif"), которыми
 // заполнены стартовые товары. Любые другие схемы (javascript:, data:) отвергаем.
+// null — «не учитывать остаток» (см. Product.stock в schema.prisma).
+const stock = z
+  .number(required("Остаток должен быть числом"))
+  .int("Остаток должен быть целым числом")
+  .min(0, "Остаток не может быть отрицательным")
+  .max(100000, "Слишком большой остаток")
+  .nullable();
+
 const imageRef = z
   .string(required("Некорректная ссылка на изображение"))
   .refine((value) => /^https:\/\/\S+$/.test(value) || /^\/[^\s/]\S*$/.test(value), {
@@ -26,6 +34,7 @@ export const createProductSchema = z.object({
   category: z.enum(CATEGORIES, { errorMap: () => ({ message: "Выберите категорию" }) }),
   images: z.array(imageRef).max(10, "Не больше 10 изображений").default([]),
   inStock: z.boolean().default(true),
+  stock: stock.optional(),
 });
 
 // PATCH: любые поля из создания, но хотя бы одно. .default() из create
@@ -35,6 +44,7 @@ export const updateProductSchema = createProductSchema
   .extend({
     images: z.array(imageRef).max(10, "Не больше 10 изображений").optional(),
     inStock: z.boolean().optional(),
+    stock: stock.optional(),
   })
   .refine((data) => Object.values(data).some((value) => value !== undefined), {
     message: "Нет полей для обновления",
