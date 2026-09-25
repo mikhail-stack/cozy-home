@@ -1,3 +1,8 @@
+# Имя проекта задано явно: по умолчанию compose берёт имя родительской
+# папки, а она у нас кириллицей — compose падает с "project name must not
+# be empty".
+name: cozy-home
+
 services:
   postgres:
     image: postgres:17-alpine

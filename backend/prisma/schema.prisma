@@ -3,10 +3,118 @@ generator client {
   output   = "../src/generated/prisma"
 }
 
+// В Prisma 7 `url` в datasource-блоке больше не поддерживается — CLI
+// (migrate/studio) берёт connection string из prisma.config.ts, а
+// PrismaClient в рантайме получает её через driver adapter (см.
+// src/lib/prisma.ts). Обнаружено по факту при первом `prisma generate` —
+// часть примеров в документации Prisma ещё показывает старый синтаксис.
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
-// Модели (User, Product, Order, OrderItem, CartItem) будут добавлены
-// на этапе реализации согласно разделу 11 ТЗ.
+// Модели — прямое отражение docs/cozy-home-tz.md, раздел 11, и связей
+// из docs/architecture.md, раздел 4. Значения enum'ов (role, category,
+// status) — строчными и дословно как в типах фронтенда (auth.store.ts,
+// types/product.ts, lib/mock-orders.ts), чтобы Prisma Client отдавал
+// строки без маппинга на границе API.
+
+enum Role {
+  user
+  admin
+}
+
+enum ProductCategory {
+  candles
+  textile
+  kitchen
+  decor
+}
+
+enum OrderStatus {
+  new
+  processing
+  done
+  cancelled
+}
+
+model User {
+  id             String   @id @default(cuid())
+  name           String
+  email          String   @unique
+  password       String
+  role           Role     @default(user)
+  // Уникальный, но не обязательный — привязывается позже, через бота
+  // или /profile (docs/cozy-home-tz.md, раздел 7).
+  telegramChatId String?  @unique
+  createdAt      DateTime @default(now())
+
+  orders    Order[]
+  cartItems CartItem[]
+}
+
+model Product {
+  id          String          @id @default(cuid())
+  name        String
+  description String
+  // Целое число (гривны без копеек) — везде в ТЗ и моках цены целые
+  // (320, 580...), Decimal здесь была бы неоправданным усложнением.
+  price       Int
+  category    ProductCategory
+  // Просто массив URL — фиксированной раскладки main/detail/interior
+  // (как временно на фронте в lib/mock-products.ts) в ТЗ нет, это
+  // будет решаться на уровне frontend при подключении к этому API
+  // (пункт 16 плана: Products-модуль + Cloudinary).
+  images      String[]
+  inStock     Boolean         @default(true)
+  createdAt   DateTime        @default(now())
+
+  cartItems  CartItem[]
+  orderItems OrderItem[]
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  name       String
+  phone      String
+  comment    String?
+  status     OrderStatus @default(new)
+  totalPrice Int
+  createdAt  DateTime    @default(now())
+
+  // Опционально — по ТЗ регистрация не обязательна для заказа
+  // (docs/architecture.md, раздел 4: "заказ гостя создаётся без userId").
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  items OrderItem[]
+}
+
+model OrderItem {
+  id        String @id @default(cuid())
+  quantity  Int
+  // Цена на момент заказа — снимок, а не ссылка на текущую Product.price,
+  // иначе смена цены товара задним числом искажала бы историю заказов.
+  price     Int
+
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+}
+
+// Только для авторизованных — гостевая корзина целиком в localStorage
+// фронтенда и сюда не попадает (docs/cozy-home-tz.md, раздел 5).
+model CartItem {
+  id       String @id @default(cuid())
+  quantity Int
+
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+
+  // Один товар — одна строка корзины на пользователя; повторное
+  // добавление увеличивает quantity (как addItem в frontend/store/cart.store.ts),
+  // а не плодит дубликаты строк.
+  @@unique([userId, productId])
+}
