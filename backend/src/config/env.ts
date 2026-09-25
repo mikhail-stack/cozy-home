@@ -11,6 +11,11 @@ const durationSchema = z
     return Number(value.slice(0, -1)) * unit;
   });
 
+const optionalString = z
+  .string()
+  .optional()
+  .transform((value) => value || undefined);
+
 const envSchema = z
   .object({
     NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
@@ -21,6 +26,11 @@ const envSchema = z
     JWT_REFRESH_SECRET: z.string().min(1),
     JWT_ACCESS_EXPIRES_IN: durationSchema.default("15m"),
     JWT_REFRESH_EXPIRES_IN: durationSchema.default("30d"),
+    // Необязательные: без ключей API работает, а загрузка изображений
+    // отвечает 503 (lib/cloudinary.ts). Пустая строка из .env.example = не задано.
+    CLOUDINARY_CLOUD_NAME: optionalString,
+    CLOUDINARY_API_KEY: optionalString,
+    CLOUDINARY_API_SECRET: optionalString,
   })
   .superRefine((value, ctx) => {
     if (value.NODE_ENV !== "production") return;

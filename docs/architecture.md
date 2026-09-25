@@ -107,7 +107,7 @@ backend/
 - **`auth.middleware.ts`** — единая точка проверки JWT и роли. Роуты вида `router.get('/admin/orders', requireRole('admin'), ...)` — декларативно и без дублирования проверок в каждом контроллере.
 - **Telegram-бот** (`modules/telegram`) стартует вместе с сервером в `server.ts` (`bot.launch()` через polling — вебхук не нужен при таком масштабе). Бот вызывает те же сервисы (`orders.service`, `auth.service`), что и HTTP API, — никакой дублированной бизнес-логики.
 - **Сессия** (реализовано, пункт 15): access-JWT на 15 минут возвращается в теле ответа и хранится на фронте только в памяти; refresh-JWT на 30 дней лежит в `httpOnly`-куке `refresh_token` (`path: "/"`, `sameSite: lax`, `secure` в production). `POST /api/auth/refresh` выдаёт новый access-токен по куке, без ротации и без серверного отзыва (logout только чистит куку). Роль читается из access-токена — смена роли действует не позже чем через 15 минут. Ответы об ошибках всегда `{ message }`.
-- **Загрузка изображений**: клиент шлёт `multipart/form-data` на `/api/products/upload` → `upload.middleware.ts` (multer, память) → сервис стримит файлы в Cloudinary → возвращает массив URL → сохраняются в `Product.images`.
+- **Загрузка изображений**: клиент шлёт `multipart/form-data` на `/api/products/upload` → `upload.middleware.ts` (multer, память) → сервис стримит файлы в Cloudinary → возвращает массив URL → сохраняются в `Product.images`. Реализовано (пункт 16): ключи Cloudinary необязательны — без них загрузка отвечает 503, остальное API работает; `images` принимает https-URL или путь от корня сайта (статика фронтенда).
 
 ---
 

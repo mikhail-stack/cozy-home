@@ -5,6 +5,7 @@ import { env } from "./config/env.js";
 import { HttpError } from "./lib/errors.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
+import { productsRouter } from "./modules/products/products.routes.js";
 
 // Сборка приложения отдельно от listen() (server.ts) — supertest в тестах
 // работает с приложением напрямую, без открытия порта.
@@ -21,6 +22,7 @@ export function createApp() {
     res.json({ status: "ok" });
   });
   app.use("/api/auth", authRouter);
+  app.use("/api/products", productsRouter);
 
   app.use((_req, _res, next) => {
     next(new HttpError(404, "Не найдено"));
