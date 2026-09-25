@@ -6,6 +6,7 @@ import { HttpError } from "./lib/errors.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
 import { cartRouter } from "./modules/cart/cart.routes.js";
+import { ordersRouter } from "./modules/orders/orders.routes.js";
 import { productsRouter } from "./modules/products/products.routes.js";
 
 // Сборка приложения отдельно от listen() (server.ts) — supertest в тестах
@@ -25,6 +26,7 @@ export function createApp() {
   app.use("/api/auth", authRouter);
   app.use("/api/products", productsRouter);
   app.use("/api/cart", cartRouter);
+  app.use("/api/orders", ordersRouter);
 
   app.use((_req, _res, next) => {
     next(new HttpError(404, "Не найдено"));

@@ -4,6 +4,7 @@ import { useState, type FormEvent } from "react";
 import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { formatPhoneInput, PHONE_PATTERN } from "@/lib/phone";
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -11,8 +12,8 @@ interface CheckoutModalProps {
   onSubmitted: () => void;
 }
 
-// Отправка пока не уходит на backend — реальная заявка (Order + уведомление
-// в Telegram) появится вместе с Orders-модулем (backend, пункт 18 плана).
+// Отправка пока не уходит на backend — Orders-модуль готов (пункт 18 плана),
+// форму подключим к POST /api/orders в пункте 23 (интеграция фронта).
 export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -53,9 +54,14 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
           <Input
             required
             type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            maxLength={17}
+            pattern={PHONE_PATTERN}
+            title="Номер в формате +380 50 123 45 67"
             value={phone}
-            onChange={(event) => setPhone(event.target.value)}
-            placeholder="+380"
+            onChange={(event) => setPhone(formatPhoneInput(event.target.value))}
+            placeholder="+380 50 123 45 67"
           />
         </label>
 

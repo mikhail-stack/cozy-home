@@ -79,6 +79,9 @@ model Product {
 
 model Order {
   id         String      @id @default(cuid())
+  // Сквозной номер для людей — «Заказ #42» в Telegram-уведомлении и колонка
+  // «#» в админке (ТЗ, разделы 8–9); id остаётся непредсказуемым cuid.
+  number     Int         @unique @default(autoincrement())
   name       String
   phone      String
   comment    String?

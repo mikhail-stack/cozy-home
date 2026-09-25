@@ -26,6 +26,18 @@ export const requireAuth: RequestHandler = (req, _res, next) => {
   next();
 };
 
+// Для эндпоинтов, открытых и гостям (заказ без регистрации, ТЗ раздел 5).
+// Без заголовка — гость; заголовок с негодным токеном — 401, а не молчаливый
+// «гость»: иначе заказ просроченной сессии потерял бы привязку к аккаунту
+// вместо того, чтобы фронтенд обновил токен (lib/api.ts) и повторил запрос.
+export const optionalAuth: RequestHandler = (req, res, next) => {
+  if (!req.headers.authorization) {
+    next();
+    return;
+  }
+  requireAuth(req, res, next);
+};
+
 export const requireRole =
   (...roles: TokenPayload["role"][]): RequestHandler =>
   (req, res, next) => {
