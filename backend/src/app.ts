@@ -5,6 +5,7 @@ import { env } from "./config/env.js";
 import { HttpError } from "./lib/errors.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
+import { aboutRouter } from "./modules/about/about.routes.js";
 import { cartRouter } from "./modules/cart/cart.routes.js";
 import { ordersRouter } from "./modules/orders/orders.routes.js";
 import { productsRouter } from "./modules/products/products.routes.js";
@@ -27,6 +28,7 @@ export function createApp() {
   app.use("/api/products", productsRouter);
   app.use("/api/cart", cartRouter);
   app.use("/api/orders", ordersRouter);
+  app.use("/api/about", aboutRouter);
 
   app.use((_req, _res, next) => {
     next(new HttpError(404, "Не найдено"));

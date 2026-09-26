@@ -17,7 +17,7 @@ const stock = z
   .max(100000, "Слишком большой остаток")
   .nullable();
 
-const imageRef = z
+export const imageRef = z
   .string(required("Некорректная ссылка на изображение"))
   .refine((value) => /^https:\/\/\S+$/.test(value) || /^\/[^\s/]\S*$/.test(value), {
     message: "Некорректная ссылка на изображение",

@@ -98,11 +98,11 @@ model Order {
 }
 
 model OrderItem {
-  id        String @id @default(cuid())
-  quantity  Int
+  id       String @id @default(cuid())
+  quantity Int
   // Цена на момент заказа — снимок, а не ссылка на текущую Product.price,
   // иначе смена цены товара задним числом искажала бы историю заказов.
-  price     Int
+  price    Int
 
   orderId   String
   order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
@@ -125,4 +125,19 @@ model CartItem {
   // добавление увеличивает quantity (как addItem в frontend/store/cart.store.ts),
   // а не плодит дубликаты строк.
   @@unique([userId, productId])
+}
+
+// Контент страницы «О магазине» (ТЗ, раздел 9): одна строка на весь сайт —
+// фиксированный id, создаётся первым сохранением из админки. Пока строки
+// нет, API отдаёт значения по умолчанию (modules/about/about.defaults.ts).
+// Преимущества (иконка + заголовок + текст) — массив в Json: это часть
+// одной страницы, которая всегда читается и пишется целиком.
+model About {
+  id          String   @id @default("about")
+  title       String
+  description String
+  advantages  Json
+  phone       String
+  email       String
+  updatedAt   DateTime @updatedAt
 }
