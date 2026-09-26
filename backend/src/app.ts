@@ -9,6 +9,7 @@ import { aboutRouter } from "./modules/about/about.routes.js";
 import { cartRouter } from "./modules/cart/cart.routes.js";
 import { ordersRouter } from "./modules/orders/orders.routes.js";
 import { productsRouter } from "./modules/products/products.routes.js";
+import { usersRouter } from "./modules/users/users.routes.js";
 
 // Сборка приложения отдельно от listen() (server.ts) — supertest в тестах
 // работает с приложением напрямую, без открытия порта.
@@ -29,6 +30,7 @@ export function createApp() {
   app.use("/api/cart", cartRouter);
   app.use("/api/orders", ordersRouter);
   app.use("/api/about", aboutRouter);
+  app.use("/api/users", usersRouter);
 
   app.use((_req, _res, next) => {
     next(new HttpError(404, "Не найдено"));
