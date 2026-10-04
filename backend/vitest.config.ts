@@ -13,6 +13,9 @@ export default defineConfig({
       CLOUDINARY_CLOUD_NAME: "",
       CLOUDINARY_API_KEY: "",
       CLOUDINARY_API_SECRET: "",
+      // Пустые — тесты не должны ходить в реальный Telegram, что бы ни лежало в .env.
+      TELEGRAM_BOT_TOKEN: "",
+      TELEGRAM_ADMIN_CHAT_ID: "",
     },
     globalSetup: ["./test/global-setup.ts"],
     // Тесты на реальной БД делят одну тестовую базу — параллельные файлы

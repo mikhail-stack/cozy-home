@@ -15,7 +15,7 @@
 - **Backend:** Node.js + Express + Prisma ORM
 - **База данных:** PostgreSQL
 - **Изображения:** Cloudinary
-- **Уведомления/восстановление пароля:** Telegram-бот (`node-telegram-bot-api`, встроен в backend)
+- **Уведомления/восстановление пароля:** Telegram-бот (Bot API напрямую через `fetch`, встроен в backend)
 
 ## Структура
 

@@ -31,6 +31,15 @@ const envSchema = z
     CLOUDINARY_CLOUD_NAME: optionalString,
     CLOUDINARY_API_KEY: optionalString,
     CLOUDINARY_API_SECRET: optionalString,
+    // Необязательные: без токена бот не запускается, уведомления и привязка
+    // Telegram отключены, остальное API работает (modules/telegram).
+    TELEGRAM_BOT_TOKEN: optionalString,
+    TELEGRAM_ADMIN_CHAT_ID: optionalString,
+    // Имя бота без «@» — для ссылки привязки t.me/<имя>?start=<токен>.
+    TELEGRAM_BOT_USERNAME: z
+      .string()
+      .optional()
+      .transform((value) => value?.replace(/^@/, "") || "CozyHomeBot"),
   })
   .superRefine((value, ctx) => {
     if (value.NODE_ENV !== "production") return;

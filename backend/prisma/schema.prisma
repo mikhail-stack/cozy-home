@@ -48,8 +48,9 @@ model User {
   telegramChatId String?  @unique
   createdAt      DateTime @default(now())
 
-  orders    Order[]
-  cartItems CartItem[]
+  orders             Order[]
+  cartItems          CartItem[]
+  telegramLinkTokens TelegramLinkToken[]
 }
 
 model Product {
@@ -140,4 +141,20 @@ model About {
   phone       String
   email       String
   updatedAt   DateTime @updatedAt
+}
+
+// Одноразовая ссылка привязки Telegram: пользователь в личном кабинете
+// получает t.me/<бот>?start=<токен>, бот по /start <токен> сохраняет chat_id
+// в User.telegramChatId. В БД лежит только sha256 токена, срок — 15 минут,
+// после использования запись удаляется. Привязка по одному лишь email
+// (/link email из ТЗ) не делается: любой, кто знает чужой email, привязал бы
+// к нему свой Telegram и через восстановление пароля получил бы аккаунт.
+model TelegramLinkToken {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

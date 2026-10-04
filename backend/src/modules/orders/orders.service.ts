@@ -2,6 +2,7 @@ import { HttpError } from "../../lib/errors.js";
 import { hasErrorCode } from "../../lib/prisma-errors.js";
 import { prisma } from "../../lib/prisma.js";
 import type { Prisma } from "../../generated/prisma/client.js";
+import { notifyNewOrder } from "../telegram/telegram.service.js";
 import { MAX_QUANTITY } from "../cart/cart.schemas.js";
 import type { CreateOrderInput, ListOrdersQuery, ORDER_STATUSES } from "./orders.schemas.js";
 
@@ -79,8 +80,8 @@ export async function createOrder(userId: string | undefined, input: CreateOrder
   // не уходят в взаимную блокировку.
   const productIds = [...wanted.keys()].sort();
 
-  try {
-    return await prisma.$transaction(async (tx) => {
+  const order = await prisma
+    .$transaction(async (tx) => {
       const products = await tx.product.findMany({ where: { id: { in: productIds } } });
       const byId = new Map(products.map((product) => [product.id, product]));
 
@@ -120,13 +121,17 @@ export async function createOrder(userId: string | undefined, input: CreateOrder
       // (у гостя её нет, ТЗ раздел 5).
       if (userId) await tx.cartItem.deleteMany({ where: { userId } });
       return order;
+    })
+    .catch((error: unknown) => {
+      // Токен живёт 15 минут, а пользователя могли удалить — внешний ключ.
+      throw hasErrorCode(error, "P2003")
+        ? new HttpError(401, "Сессия истекла, войдите заново")
+        : error;
     });
-  } catch (error) {
-    // Токен живёт 15 минут, а пользователя могли удалить — внешний ключ.
-    throw hasErrorCode(error, "P2003")
-      ? new HttpError(401, "Сессия истекла, войдите заново")
-      : error;
-  }
+
+  // После коммита и без await: сбой Telegram заказ не отменяет и ответ не тормозит.
+  void notifyNewOrder(order);
+  return order;
 }
 
 export const listMyOrders = (userId: string) =>
