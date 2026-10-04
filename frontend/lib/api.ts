@@ -29,12 +29,15 @@ interface RefreshResponse {
 export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { skipAuthRetry, headers, ...rest } = options;
   const accessToken = useAuthStore.getState().accessToken;
+  // FormData (загрузка фото, ProductFormModal) сама выставляет
+  // Content-Type с boundary — навязанный application/json сломал бы multipart.
+  const isFormData = rest.body instanceof FormData;
 
   const response = await fetch(`${API_URL}${path}`, {
     ...rest,
     credentials: "include",
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
       ...headers,
     },
