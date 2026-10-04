@@ -6,6 +6,9 @@ export interface AuthUser {
   id: string;
   name: string;
   email: string;
+  // Необязательно — Header.test.tsx (заморожен) строит AuthUser без этого
+  // поля; бэкенд всегда присылает phone (null, если не указан).
+  phone?: string | null;
   role: UserRole;
 }
 

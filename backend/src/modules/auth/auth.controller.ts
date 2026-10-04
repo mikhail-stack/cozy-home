@@ -2,10 +2,12 @@ import type { RequestHandler, Response } from "express";
 import { env } from "../../config/env.js";
 import { parseBody } from "../../lib/validate.js";
 import {
+  changePasswordSchema,
   forgotPasswordSchema,
   loginSchema,
   registerSchema,
   resetPasswordSchema,
+  updateProfileSchema,
 } from "./auth.schemas.js";
 import * as authService from "./auth.service.js";
 
@@ -65,4 +67,14 @@ export const resetPassword: RequestHandler = async (req, res) => {
 export const me: RequestHandler = async (req, res) => {
   // requireAuth гарантирует req.user; данные читаем из БД, а не из токена.
   res.json({ user: await authService.getUser(req.user!.sub) });
+};
+
+export const updateProfile: RequestHandler = async (req, res) => {
+  const input = parseBody(updateProfileSchema, req.body);
+  res.json({ user: await authService.updateProfile(req.user!.sub, input) });
+};
+
+export const changePassword: RequestHandler = async (req, res) => {
+  const input = parseBody(changePasswordSchema, req.body);
+  res.json(await authService.changePassword(req.user!.sub, input));
 };

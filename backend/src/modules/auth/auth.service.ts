@@ -8,10 +8,12 @@ import { hasErrorCode } from "../../lib/prisma-errors.js";
 import { prisma } from "../../lib/prisma.js";
 import { RESET_EMAIL_SUBJECT, resetCodeEmail } from "./auth.emails.js";
 import type {
+  ChangePasswordInput,
   ForgotPasswordInput,
   LoginInput,
   RegisterInput,
   ResetPasswordInput,
+  UpdateProfileInput,
 } from "./auth.schemas.js";
 
 const BCRYPT_ROUNDS = 10;
@@ -23,6 +25,7 @@ export interface PublicUser {
   id: string;
   name: string;
   email: string;
+  phone: string | null;
   role: "user" | "admin";
 }
 
@@ -41,6 +44,7 @@ const toPublicUser = (user: PublicUser): PublicUser => ({
   id: user.id,
   name: user.name,
   email: user.email,
+  phone: user.phone,
   role: user.role,
 });
 
@@ -193,4 +197,55 @@ export async function getUser(id: string): Promise<PublicUser> {
     throw new HttpError(401, "Сессия истекла, войдите заново");
   }
   return toPublicUser(user);
+}
+
+// Имя/email/телефон правятся по месту, пароль — отдельным эндпоинтом ниже
+// (changePassword). Email проверяется на занятость явно, да ещё и на гонку
+// через уникальный индекс — как в register().
+export async function updateProfile(
+  userId: string,
+  input: UpdateProfileInput,
+): Promise<PublicUser> {
+  const emailTaken = new HttpError(409, "Такой email уже зарегистрирован");
+
+  if (input.email !== undefined) {
+    const existing = await prisma.user.findUnique({ where: { email: input.email } });
+    if (existing && existing.id !== userId) throw emailTaken;
+  }
+
+  try {
+    const user = await prisma.user.update({
+      where: { id: userId },
+      data: {
+        ...(input.name !== undefined ? { name: input.name } : {}),
+        ...(input.email !== undefined ? { email: input.email } : {}),
+        ...(input.phone !== undefined ? { phone: input.phone } : {}),
+      },
+    });
+    return toPublicUser(user);
+  } catch (error) {
+    if (hasErrorCode(error, "P2002")) throw emailTaken;
+    // P2025 — профиль правит токен удалённого пользователя.
+    throw hasErrorCode(error, "P2025")
+      ? new HttpError(401, "Сессия истекла, войдите заново")
+      : error;
+  }
+}
+
+// Текущий пароль обязателен — иначе открытая сессия на чужом/общем
+// компьютере позволяла бы перехватить аккаунт одной сменой пароля.
+export async function changePassword(
+  userId: string,
+  input: ChangePasswordInput,
+): Promise<{ message: string }> {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) throw new HttpError(401, "Сессия истекла, войдите заново");
+
+  if (!(await bcrypt.compare(input.currentPassword, user.password))) {
+    throw new HttpError(400, "Неверный текущий пароль");
+  }
+
+  const password = await bcrypt.hash(input.newPassword, BCRYPT_ROUNDS);
+  await prisma.user.update({ where: { id: userId }, data: { password } });
+  return { message: "Пароль успешно изменён" };
 }

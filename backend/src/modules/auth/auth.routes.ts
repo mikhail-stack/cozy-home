@@ -11,3 +11,5 @@ authRouter.post("/logout", controller.logout);
 authRouter.post("/forgot-password", controller.forgotPassword);
 authRouter.post("/reset-password", controller.resetPassword);
 authRouter.get("/me", requireAuth, controller.me);
+authRouter.patch("/me", requireAuth, controller.updateProfile);
+authRouter.patch("/me/password", requireAuth, controller.changePassword);
