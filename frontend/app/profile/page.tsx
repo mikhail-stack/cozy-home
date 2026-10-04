@@ -9,14 +9,8 @@ import { apiFetch, ApiError } from "@/lib/api";
 import { useCartStore } from "@/store/cart.store";
 import { formatPhoneInput, isValidPhone, PHONE_PATTERN } from "@/lib/phone";
 import { getPasswordError } from "@/lib/validate-password";
-import type { Order, OrderStatus } from "@/types/order";
-
-const STATUS_LABELS: Record<OrderStatus, string> = {
-  new: "Новый",
-  processing: "В обработке",
-  done: "Выполнен",
-  cancelled: "Отменён",
-};
+import { ORDER_STATUS_LABELS } from "@/lib/order-status";
+import type { Order } from "@/types/order";
 
 // Правка профиля (доработка пункта 23 по решению из чата 2026-10-04):
 // имя/email/телефон — PATCH /api/auth/me, пароль — отдельной формой,
@@ -316,7 +310,7 @@ export default function ProfilePage() {
                 <span>
                   Заказ #{order.number} от {new Date(order.createdAt).toLocaleDateString("ru-RU")}
                 </span>
-                <span>{STATUS_LABELS[order.status]}</span>
+                <span>{ORDER_STATUS_LABELS[order.status]}</span>
               </div>
               <p className="font-lunar text-caption tracking-caption text-stone">
                 {order.items.map((item) => `${item.product.name} × ${item.quantity}`).join(", ")}

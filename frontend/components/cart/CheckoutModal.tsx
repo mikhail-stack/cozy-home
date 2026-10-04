@@ -5,6 +5,8 @@ import { Modal } from "@/components/ui/Modal";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { formatPhoneInput, PHONE_PATTERN } from "@/lib/phone";
+import { apiFetch } from "@/lib/api";
+import { useCartStore } from "@/store/cart.store";
 
 interface CheckoutModalProps {
   isOpen: boolean;
@@ -12,8 +14,13 @@ interface CheckoutModalProps {
   onSubmitted: () => void;
 }
 
-// Отправка пока не уходит на backend — Orders-модуль готов (пункт 18 плана),
-// форму подключим к POST /api/orders в пункте 23 (интеграция фронта).
+// Заявка принимается оптимистично — onSubmitted() зовётся сразу, не дожидаясь
+// ответа сервера (как фоновая синхронизация корзины в cart.store.ts), чтобы
+// пользователь сразу увидел «Заявка принята». Сам POST /api/orders уходит
+// в фоне; серверную корзину авторизованного пользователя бэкенд очищает сам
+// внутри транзакции создания заказа (orders.service.ts). Если корзина пуста
+// (сюда можно попасть только напрямую — кнопка в CartDrawer показывается
+// лишь при непустой корзине) отправлять нечего, запрос не уходит.
 export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalProps) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -21,6 +28,20 @@ export function CheckoutModal({ isOpen, onClose, onSubmitted }: CheckoutModalPro
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+
+    const items = useCartStore
+      .getState()
+      .items.map((item) => ({ productId: item.product.id, quantity: item.quantity }));
+
+    if (items.length > 0) {
+      apiFetch("/orders", {
+        method: "POST",
+        body: JSON.stringify({ name, phone, comment: comment || undefined, items }),
+      }).catch((error: unknown) => {
+        console.error("Не удалось отправить заказ", error);
+      });
+    }
+
     onSubmitted();
     setName("");
     setPhone("");

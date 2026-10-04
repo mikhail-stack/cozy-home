@@ -1,52 +1,86 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import {
-  MOCK_ADMIN_ORDERS,
-  STATUS_LABELS,
-  type AdminOrder,
-  type AdminOrderStatus,
-} from "@/lib/mock-orders";
+import { useEffect, useState } from "react";
+import { apiFetch, ApiError } from "@/lib/api";
+import { ORDER_STATUS_LABELS } from "@/lib/order-status";
+import type { Order, OrderStatus } from "@/types/order";
 import { OrderDetailsModal } from "@/components/admin/OrderDetailsModal";
 import { Input } from "@/components/ui/Input";
 
-type StatusFilter = "all" | AdminOrderStatus;
+type StatusFilter = "all" | OrderStatus;
+
+interface OrdersResponse {
+  orders: Order[];
+  total: number;
+  page: number;
+  limit: number;
+}
 
 const selectClasses =
   "rounded-lg border border-graphite bg-ash px-16 py-12 font-lunar text-body-sm tracking-body-sm text-obsidian focus:border-cobalt-ink focus:outline-none";
 
-// Данные — мок, смена статуса не сохраняется между перезагрузками.
-// Реальные заказы появятся с Orders-модулем backend (пункт 18 плана).
+// Фильтрация и поиск — на бэкенде (GET /api/orders, admin), не на клиенте:
+// список заказов может расти, а сервер уже умеет все нужные параметры
+// (status/from/to/q, пункт 18 плана). lib/mock-orders.ts (и локальный
+// AdminOrder с id: number) больше не используется — здесь настоящий
+// Order/OrderStatus из frontend/types/order.ts, где id — строка (cuid),
+// а человекочитаемый номер заказа — отдельное поле `number`.
 export default function AdminOrdersPage() {
-  const [orders, setOrders] = useState<AdminOrder[]>(MOCK_ADMIN_ORDERS);
+  const [orders, setOrders] = useState<Order[] | null>(null);
+  const [loadError, setLoadError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [search, setSearch] = useState("");
-  const [selectedOrder, setSelectedOrder] = useState<AdminOrder | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [statusError, setStatusError] = useState<string | null>(null);
 
-  const filtered = useMemo(() => {
-    return orders.filter((order) => {
-      if (statusFilter !== "all" && order.status !== statusFilter) return false;
-      if (dateFrom && order.date < dateFrom) return false;
-      if (dateTo && order.date > dateTo) return false;
+  useEffect(() => {
+    const params = new URLSearchParams({ limit: "100" });
+    if (statusFilter !== "all") params.set("status", statusFilter);
+    if (dateFrom) params.set("from", dateFrom);
+    if (dateTo) params.set("to", dateTo);
+    if (search.trim()) params.set("q", search.trim());
 
-      const query = search.trim().toLowerCase();
-      if (query && !order.name.toLowerCase().includes(query) && !order.phone.includes(query)) {
-        return false;
-      }
+    let cancelled = false;
 
-      return true;
-    });
-  }, [orders, statusFilter, dateFrom, dateTo, search]);
+    apiFetch<OrdersResponse>(`/orders?${params.toString()}`)
+      .then((result) => {
+        if (cancelled) return;
+        setOrders(result.orders);
+        setLoadError(null);
+      })
+      .catch((error: unknown) => {
+        if (cancelled) return;
+        setOrders([]);
+        setLoadError(error instanceof ApiError ? error.message : "Не удалось загрузить заказы");
+      });
 
-  const handleStatusChange = (id: number, status: AdminOrderStatus) => {
-    setOrders((current) =>
-      current.map((order) => (order.id === id ? { ...order, status } : order)),
-    );
-    setSelectedOrder((current) =>
-      current && current.id === id ? { ...current, status } : current,
-    );
+    return () => {
+      cancelled = true;
+    };
+  }, [statusFilter, dateFrom, dateTo, search]);
+
+  const handleOpenOrder = (order: Order) => {
+    setStatusError(null);
+    setSelectedOrder(order);
+  };
+
+  const handleStatusChange = (id: string, status: OrderStatus) => {
+    setStatusError(null);
+    apiFetch<Order>(`/orders/${id}/status`, {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+    })
+      .then((updated) => {
+        setOrders(
+          (current) => current?.map((order) => (order.id === id ? updated : order)) ?? current,
+        );
+        setSelectedOrder((current) => (current && current.id === id ? updated : current));
+      })
+      .catch((error: unknown) => {
+        setStatusError(error instanceof ApiError ? error.message : "Не удалось сменить статус");
+      });
   };
 
   return (
@@ -62,7 +96,7 @@ export default function AdminOrdersPage() {
             className={selectClasses}
           >
             <option value="all">Все статусы</option>
-            {Object.entries(STATUS_LABELS).map(([value, label]) => (
+            {Object.entries(ORDER_STATUS_LABELS).map(([value, label]) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -102,6 +136,10 @@ export default function AdminOrdersPage() {
         </label>
       </div>
 
+      {loadError && (
+        <p className="font-lunar text-caption tracking-caption text-stone">{loadError}</p>
+      )}
+
       <div className="overflow-x-auto">
         <table className="w-full border-collapse font-lunar text-body-sm tracking-body-sm text-obsidian">
           <thead>
@@ -116,18 +154,27 @@ export default function AdminOrdersPage() {
             </tr>
           </thead>
           <tbody>
-            {filtered.map((order) => (
+            {orders === null && (
+              <tr>
+                <td colSpan={7} className="py-16 text-center text-stone">
+                  Загрузка…
+                </td>
+              </tr>
+            )}
+            {orders?.map((order) => (
               <tr key={order.id} className="border-b border-ash">
-                <td className="py-8 pr-16">{order.id}</td>
+                <td className="py-8 pr-16">{order.number}</td>
                 <td className="py-8 pr-16">{order.name}</td>
                 <td className="py-8 pr-16">{order.phone}</td>
-                <td className="py-8 pr-16">{order.total} грн</td>
-                <td className="py-8 pr-16">{order.date}</td>
-                <td className="py-8 pr-16">{STATUS_LABELS[order.status]}</td>
+                <td className="py-8 pr-16">{order.totalPrice} грн</td>
+                <td className="py-8 pr-16">
+                  {new Date(order.createdAt).toLocaleDateString("ru-RU")}
+                </td>
+                <td className="py-8 pr-16">{ORDER_STATUS_LABELS[order.status]}</td>
                 <td className="py-8">
                   <button
                     type="button"
-                    onClick={() => setSelectedOrder(order)}
+                    onClick={() => handleOpenOrder(order)}
                     className="hover:underline"
                   >
                     Просмотр
@@ -135,7 +182,7 @@ export default function AdminOrdersPage() {
                 </td>
               </tr>
             ))}
-            {filtered.length === 0 && (
+            {orders?.length === 0 && (
               <tr>
                 <td colSpan={7} className="py-16 text-center text-stone">
                   Ничего не найдено
@@ -150,6 +197,7 @@ export default function AdminOrdersPage() {
         order={selectedOrder}
         onClose={() => setSelectedOrder(null)}
         onStatusChange={handleStatusChange}
+        statusError={statusError}
       />
     </div>
   );
