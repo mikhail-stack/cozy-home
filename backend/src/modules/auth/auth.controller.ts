@@ -1,7 +1,12 @@
 import type { RequestHandler, Response } from "express";
 import { env } from "../../config/env.js";
 import { parseBody } from "../../lib/validate.js";
-import { loginSchema, registerSchema } from "./auth.schemas.js";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  registerSchema,
+  resetPasswordSchema,
+} from "./auth.schemas.js";
 import * as authService from "./auth.service.js";
 
 // Имя куки зафиксировано фронтендом: frontend/proxy.ts по ней решает,
@@ -42,6 +47,19 @@ export const refresh: RequestHandler = async (req, res) => {
 export const logout: RequestHandler = (_req, res) => {
   res.clearCookie(REFRESH_COOKIE, cookieOptions);
   res.status(204).end();
+};
+
+const GENERIC_FORGOT_MESSAGE = "Если такой email зарегистрирован, на него отправлен код";
+
+// Ответ одинаков независимо от того, существует ли email — иначе эндпоинт
+// выдавал бы, какие адреса зарегистрированы в магазине.
+export const forgotPassword: RequestHandler = async (req, res) => {
+  await authService.requestPasswordReset(parseBody(forgotPasswordSchema, req.body));
+  res.json({ message: GENERIC_FORGOT_MESSAGE });
+};
+
+export const resetPassword: RequestHandler = async (req, res) => {
+  res.json(await authService.resetPassword(parseBody(resetPasswordSchema, req.body)));
 };
 
 export const me: RequestHandler = async (req, res) => {

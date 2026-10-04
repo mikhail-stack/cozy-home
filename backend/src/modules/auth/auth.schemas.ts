@@ -25,5 +25,28 @@ export const loginSchema = z.object({
   rememberMe: z.boolean().default(false),
 });
 
+const email = z.string(required("Введите email")).trim().toLowerCase().email("Некорректный email");
+
+export const forgotPasswordSchema = z.object({ email });
+
+export const resetPasswordSchema = z
+  .object({
+    email,
+    code: z
+      .string(required("Введите код"))
+      .trim()
+      .regex(/^\d{6}$/, "Неверный код"),
+    password: z
+      .string(required("Введите пароль"))
+      .min(8, "Пароль должен содержать минимум 8 символов"),
+    confirmPassword: z.string(required("Подтвердите пароль")),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Пароли не совпадают",
+    path: ["confirmPassword"],
+  });
+
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
+export type ForgotPasswordInput = z.infer<typeof forgotPasswordSchema>;
+export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>;

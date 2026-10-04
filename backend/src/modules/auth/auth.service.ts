@@ -1,10 +1,18 @@
 import bcrypt from "bcryptjs";
+import { createHash, randomInt, timingSafeEqual } from "node:crypto";
 import { env } from "../../config/env.js";
 import { HttpError } from "../../lib/errors.js";
 import { signAccessToken, signRefreshToken, verifyRefreshToken } from "../../lib/jwt.js";
+import { sendMail } from "../../lib/mailer.js";
 import { hasErrorCode } from "../../lib/prisma-errors.js";
 import { prisma } from "../../lib/prisma.js";
-import type { LoginInput, RegisterInput } from "./auth.schemas.js";
+import { RESET_EMAIL_SUBJECT, resetCodeEmail } from "./auth.emails.js";
+import type {
+  ForgotPasswordInput,
+  LoginInput,
+  RegisterInput,
+  ResetPasswordInput,
+} from "./auth.schemas.js";
 
 const BCRYPT_ROUNDS = 10;
 // Без «Запомнить меня» — сессионная кука и refresh на сутки; с ним —
@@ -102,6 +110,81 @@ export async function refresh(refreshToken: string | undefined) {
     user: toPublicUser(user),
     accessToken: signAccessToken({ sub: user.id, role: user.role }),
   };
+}
+
+const RESET_CODE_TTL_MS = 15 * 60 * 1000;
+const MAX_RESET_ATTEMPTS = 5;
+
+// Хеш привязан к userId — коллизия кода (1 на миллион) у двух разных
+// пользователей не бьётся в один и тот же codeHash (поле @unique).
+const hashResetCode = (userId: string, code: string) =>
+  createHash("sha256").update(`${userId}:${code}`).digest("hex");
+
+// crypto.randomInt — равномерное распределение (в отличие от Math.random()),
+// важно для шестизначного кода, который целиком и есть секрет.
+const generateResetCode = () => String(randomInt(1_000_000)).padStart(6, "0");
+
+// Сообщение не выдаёт, зарегистрирован ли email (ТЗ не описывает этот случай
+// явно, но раскрывать существование аккаунта не стоит) — вызывающий код
+// (controller) всегда отвечает одинаково, независимо от результата.
+export async function requestPasswordReset(input: ForgotPasswordInput): Promise<void> {
+  const user = await prisma.user.findUnique({ where: { email: input.email } });
+  if (!user) return;
+
+  const code = generateResetCode();
+  const expiresAt = new Date(Date.now() + RESET_CODE_TTL_MS);
+  await prisma.$transaction([
+    // У пользователя действует один код — новый запрос аннулирует предыдущий;
+    // заодно чистятся чужие просроченные записи.
+    prisma.passwordResetCode.deleteMany({
+      where: { OR: [{ userId: user.id }, { expiresAt: { lt: new Date() } }] },
+    }),
+    prisma.passwordResetCode.create({
+      data: { codeHash: hashResetCode(user.id, code), userId: user.id, expiresAt },
+    }),
+  ]);
+
+  await sendMail(user.email, RESET_EMAIL_SUBJECT, resetCodeEmail(code));
+}
+
+export async function resetPassword(input: ResetPasswordInput): Promise<{ message: string }> {
+  const invalidCode = new HttpError(400, "Неверный код");
+  const expiredCode = new HttpError(400, "Код устарел, запросите новый");
+
+  const user = await prisma.user.findUnique({ where: { email: input.email } });
+  if (!user) throw invalidCode;
+
+  const record = await prisma.passwordResetCode.findFirst({ where: { userId: user.id } });
+  if (!record) throw invalidCode;
+  if (record.expiresAt <= new Date()) {
+    await prisma.passwordResetCode.deleteMany({ where: { id: record.id } });
+    throw expiredCode;
+  }
+  // Перебор исчерпан — код сгорает, как просроченный: нужен новый запрос.
+  if (record.attempts >= MAX_RESET_ATTEMPTS) {
+    await prisma.passwordResetCode.deleteMany({ where: { id: record.id } });
+    throw expiredCode;
+  }
+
+  const matches = timingSafeEqual(
+    Buffer.from(hashResetCode(user.id, input.code)),
+    Buffer.from(record.codeHash),
+  );
+  if (!matches) {
+    await prisma.passwordResetCode.updateMany({
+      where: { id: record.id },
+      data: { attempts: { increment: 1 } },
+    });
+    throw invalidCode;
+  }
+
+  const password = await bcrypt.hash(input.password, BCRYPT_ROUNDS);
+  await prisma.$transaction([
+    prisma.user.update({ where: { id: user.id }, data: { password } }),
+    // Весь код (и его попытки) больше не нужен — использован.
+    prisma.passwordResetCode.deleteMany({ where: { userId: user.id } }),
+  ]);
+  return { message: "Пароль успешно изменён" };
 }
 
 export async function getUser(id: string): Promise<PublicUser> {

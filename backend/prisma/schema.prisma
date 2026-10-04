@@ -51,6 +51,7 @@ model User {
   orders             Order[]
   cartItems          CartItem[]
   telegramLinkTokens TelegramLinkToken[]
+  passwordResetCodes PasswordResetCode[]
 }
 
 model Product {
@@ -152,6 +153,23 @@ model About {
 model TelegramLinkToken {
   id        String   @id @default(cuid())
   tokenHash String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Код восстановления пароля по email (ТЗ, раздел 7 — изначально через
+// Telegram; по решению из чата канал заменён на email, формат «код + форма
+// нового пароля» сохранён). В БД — только sha256(userId + код), сам код
+// шестизначный и живёт 15 минут; у пользователя активен один — новый запрос
+// удаляет предыдущий. `attempts` ограничивает подбор кода (перебор всех
+// 1 000 000 значений без этого был бы возможен за разумное время).
+model PasswordResetCode {
+  id        String   @id @default(cuid())
+  codeHash  String   @unique
+  attempts  Int      @default(0)
   expiresAt DateTime
   createdAt DateTime @default(now())
 

@@ -40,6 +40,16 @@ const envSchema = z
       .string()
       .optional()
       .transform((value) => value?.replace(/^@/, "") || "CozyHomeBot"),
+    // Необязательные: без них письма (код восстановления пароля) не
+    // отправляются, остальное API работает (lib/mailer.ts).
+    SMTP_HOST: optionalString,
+    SMTP_PORT: z.coerce.number().int().positive().default(587),
+    SMTP_USER: optionalString,
+    SMTP_PASS: optionalString,
+    SMTP_FROM: z
+      .string()
+      .optional()
+      .transform((value) => value || "Cozy Home <no-reply@cozyhome.ua>"),
   })
   .superRefine((value, ctx) => {
     if (value.NODE_ENV !== "production") return;

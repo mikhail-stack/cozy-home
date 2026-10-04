@@ -16,6 +16,10 @@ export default defineConfig({
       // Пустые — тесты не должны ходить в реальный Telegram, что бы ни лежало в .env.
       TELEGRAM_BOT_TOKEN: "",
       TELEGRAM_ADMIN_CHAT_ID: "",
+      // Пустые — тесты не должны слать реальную почту, что бы ни лежало в .env.
+      SMTP_HOST: "",
+      SMTP_USER: "",
+      SMTP_PASS: "",
     },
     globalSetup: ["./test/global-setup.ts"],
     // Тесты на реальной БД делят одну тестовую базу — параллельные файлы
