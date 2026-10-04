@@ -5,21 +5,35 @@ import Link from "next/link";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { apiFetch, ApiError } from "@/lib/api";
 
 // Канал восстановления сменён с Telegram на email (решение из чата,
 // docs/progress.md, пункт 21) — backend (POST /api/auth/forgot-password)
-// готов и всегда отвечает одинаково независимо от того, зарегистрирован ли
-// email (чтобы эндпоинт не выдавал список адресов магазина); реальный вызов
-// подключится вместе с интеграцией фронта (пункт 23 плана).
+// всегда отвечает одинаково независимо от того, зарегистрирован ли email
+// (чтобы эндпоинт не выдавал список адресов магазина).
 const GENERIC_MESSAGE = "Если такой email зарегистрирован, на него отправлен код";
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setSent(true);
+    setError(null);
+    setSubmitting(true);
+
+    try {
+      await apiFetch("/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) });
+      setSent(true);
+    } catch (error) {
+      setError(
+        error instanceof ApiError ? error.message : "Не удалось отправить код, попробуйте ещё раз",
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (sent) {
@@ -51,7 +65,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <AuthCard title="Восстановление пароля">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-16">
+      <form onSubmit={(event) => void handleSubmit(event)} className="flex flex-col gap-16">
         <label className="flex flex-col gap-8">
           <span className="font-lunar text-caption tracking-caption text-stone">Email</span>
           <Input
@@ -63,7 +77,9 @@ export default function ForgotPasswordPage() {
           />
         </label>
 
-        <Button type="submit" variant="primary">
+        {error && <p className="font-lunar text-caption tracking-caption text-stone">{error}</p>}
+
+        <Button type="submit" variant="primary" disabled={isSubmitting}>
           Отправить код
         </Button>
 

@@ -1,6 +1,9 @@
 import { useAuthStore, type AuthUser } from "@/store/auth.store";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
+// Экспортируется — публичные GET'ы (каталог, страница товара, «О магазине»)
+// идут из Server Components обычным fetch, без apiFetch: токен им не нужен,
+// а useAuthStore (Zustand) недоступен вне клиентских компонентов.
+export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api";
 
 export class ApiError extends Error {
   status: number;
@@ -22,9 +25,7 @@ interface RefreshResponse {
 
 // Единая точка обращения к backend API (docs/architecture.md). Подставляет
 // access token из auth.store и один раз пробует обновить его через
-// refresh-cookie при 401. Backend ещё не реализован (Auth-модуль,
-// пункт 15 плана) — реальных ответов пока нет, но компоненты уже могут
-// импортировать эту обёртку вместо прямого fetch.
+// refresh-cookie при 401.
 export async function apiFetch<T>(path: string, options: RequestOptions = {}): Promise<T> {
   const { skipAuthRetry, headers, ...rest } = options;
   const accessToken = useAuthStore.getState().accessToken;
@@ -59,10 +60,9 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
   return (await response.json()) as T;
 }
 
-// Восстанавливает сессию через refresh-cookie — вызывается автоматически
-// при 401, а также будет использоваться при загрузке приложения
-// (docs/architecture.md, раздел 3), когда появится реальный backend.
-async function refreshSession(): Promise<boolean> {
+// Восстанавливает сессию через refresh-cookie — вызывается автоматически при
+// 401, а также при загрузке приложения (components/auth/SessionBootstrap.tsx).
+export async function refreshSession(): Promise<boolean> {
   try {
     const response = await fetch(`${API_URL}/auth/refresh`, {
       method: "POST",

@@ -4,6 +4,7 @@ import { inter } from "@/lib/fonts";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import { SessionBootstrap } from "@/components/auth/SessionBootstrap";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           вьюпорта на страницах с малым количеством контента (например,
           пустое "Избранное"), а не "подвисает" сразу под контентом. */}
       <body suppressHydrationWarning className="flex min-h-screen flex-col">
+        <SessionBootstrap />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

@@ -1,40 +1,67 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { getPasswordError } from "@/lib/validate-password";
+import { apiFetch, ApiError } from "@/lib/api";
+import { useAuthStore, type AuthUser } from "@/store/auth.store";
+import { mergeGuestCartIntoServer } from "@/lib/sync-cart";
 
-// Проверка занятости email и создание аккаунта — вместе с Auth-модулем
-// backend (пункт 15 плана). Проверки пароля (длина/совпадение) — чисто
-// клиентские, останутся и после подключения API.
+interface RegisterResponse {
+  user: AuthUser;
+  accessToken: string;
+}
+
+// Успешная регистрация → пользователь залогинен, редирект на главную (ТЗ,
+// раздел 6) — новый аккаунт всегда с ролью user, в отличие от /login
+// редирект по роли не нужен.
 export default function RegisterPage() {
+  const router = useRouter();
+  const setSession = useAuthStore((state) => state.setSession);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
     const passwordError = getPasswordError(password, confirmPassword);
     if (passwordError) {
       setError(passwordError);
-      setNotice(null);
       return;
     }
 
     setError(null);
-    setNotice("Регистрация подключится вместе с Auth-модулем backend.");
+    setSubmitting(true);
+    try {
+      const result = await apiFetch<RegisterResponse>("/auth/register", {
+        method: "POST",
+        body: JSON.stringify({ name, email, password, confirmPassword }),
+      });
+      setSession(result.user, result.accessToken);
+      await mergeGuestCartIntoServer();
+      router.push("/");
+    } catch (error) {
+      setError(
+        error instanceof ApiError
+          ? error.message
+          : "Не удалось зарегистрироваться, попробуйте ещё раз",
+      );
+      setSubmitting(false);
+    }
   };
 
   return (
     <AuthCard title="Регистрация">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-16">
+      <form onSubmit={(event) => void handleSubmit(event)} className="flex flex-col gap-16">
         <label className="flex flex-col gap-8">
           <span className="font-lunar text-caption tracking-caption text-stone">Имя</span>
           <Input
@@ -81,9 +108,8 @@ export default function RegisterPage() {
         </label>
 
         {error && <p className="font-lunar text-caption tracking-caption text-stone">{error}</p>}
-        {notice && <p className="font-lunar text-caption tracking-caption text-stone">{notice}</p>}
 
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" disabled={isSubmitting}>
           Зарегистрироваться
         </Button>
 

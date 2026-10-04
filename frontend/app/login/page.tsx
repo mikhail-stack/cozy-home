@@ -1,30 +1,64 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { Suspense, useState, type FormEvent } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { AuthCard } from "@/components/auth/AuthCard";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
+import { apiFetch, ApiError } from "@/lib/api";
+import { useAuthStore, type AuthUser } from "@/store/auth.store";
+import { mergeGuestCartIntoServer } from "@/lib/sync-cart";
 
-// Проверка логина/пароля и редирект по роли (user → "/", admin → "/admin",
-// неверные данные → сообщение) — вместе с Auth-модулем backend
-// (пункт 15 плана, docs/cozy-home-tz.md раздел 6). После успешного входа
-// сюда же встанет перенос гостевой корзины: cartStore.replaceItems(
-// mergeCartItems(cartStore.items, serverCart)) — см. lib/merge-cart.ts.
-export default function LoginPage() {
+interface LoginResponse {
+  user: AuthUser;
+  accessToken: string;
+}
+
+const NOTICE_MESSAGES: Record<string, string> = {
+  "password-changed": "Пароль успешно изменён",
+};
+
+// Редирект по роли (ТЗ, раздел 6): user → "/", admin → "/admin"; если на
+// страницу привёл proxy.ts (заход на /profile или /admin без сессии) —
+// возвращаем туда, куда пользователь и шёл, через ?redirect=.
+function LoginForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const setSession = useAuthStore((state) => state.setSession);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [notice, setNotice] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (event: FormEvent) => {
+  const notice = error ? null : NOTICE_MESSAGES[searchParams.get("notice") ?? ""];
+
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    setNotice("Вход подключится вместе с Auth-модулем backend.");
+    setError(null);
+    setSubmitting(true);
+
+    try {
+      const result = await apiFetch<LoginResponse>("/auth/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password, rememberMe }),
+      });
+      setSession(result.user, result.accessToken);
+      await mergeGuestCartIntoServer();
+
+      const redirect = searchParams.get("redirect");
+      router.push(redirect ?? (result.user.role === "admin" ? "/admin" : "/"));
+    } catch (error) {
+      setError(error instanceof ApiError ? error.message : "Не удалось войти, попробуйте ещё раз");
+      setSubmitting(false);
+    }
   };
 
   return (
     <AuthCard title="Вход">
-      <form onSubmit={handleSubmit} className="flex flex-col gap-16">
+      <form onSubmit={(event) => void handleSubmit(event)} className="flex flex-col gap-16">
         <label className="flex flex-col gap-8">
           <span className="font-lunar text-caption tracking-caption text-stone">Email</span>
           <Input
@@ -57,9 +91,11 @@ export default function LoginPage() {
           Запомнить меня
         </label>
 
-        {notice && <p className="font-lunar text-caption tracking-caption text-stone">{notice}</p>}
+        {(error ?? notice) && (
+          <p className="font-lunar text-caption tracking-caption text-stone">{error ?? notice}</p>
+        )}
 
-        <Button type="submit" variant="primary">
+        <Button type="submit" variant="primary" disabled={isSubmitting}>
           Войти
         </Button>
 
@@ -73,5 +109,14 @@ export default function LoginPage() {
         </div>
       </form>
     </AuthCard>
+  );
+}
+
+// useSearchParams требует границу Suspense (иначе Next 16 не соберёт страницу).
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
