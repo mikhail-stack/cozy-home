@@ -1,0 +1,141 @@
+name: CI
+
+# Срабатывает на пуш в любую ветку. Три независимых job'а: backend
+# (lint + typecheck + Vitest на реальном Postgres), frontend (lint +
+# typecheck + Vitest) и e2e (Playwright поверх живого backend с засеянной
+# БД — каталог на главной грузится с API, id `candles-1` берутся из seed).
+on:
+  push:
+    branches: ["**"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: 22
+  # Тестовые значения, не секреты — нужны только чтобы backend прошёл
+  # валидацию env (src/config/env.ts).
+  DATABASE_URL: postgresql://postgres:postgres@localhost:5432/cozy_home?schema=public
+  JWT_ACCESS_SECRET: ci-access-secret
+  JWT_REFRESH_SECRET: ci-refresh-secret
+
+jobs:
+  backend:
+    name: Backend — lint, typecheck, tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cozy_home
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cozy_home"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      # src/generated не в git — без клиента не пройдут ни линт, ни tsc.
+      - run: npm run prisma:generate
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      # Интеграционные тесты сами создают базу cozy_home_test и
+      # накатывают миграции (test/global-setup.ts).
+      - run: npm test
+
+  frontend:
+    name: Frontend — lint, typecheck, unit tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npx tsc --noEmit
+      - run: npm test
+
+  e2e:
+    name: E2E — Playwright
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: cozy_home
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d cozy_home"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+
+      - name: Backend — установка, миграции, seed
+        working-directory: backend
+        run: |
+          npm ci
+          npm run prisma:generate
+          npm run prisma:deploy
+          npm run prisma:seed
+
+      - name: Backend — запуск API в фоне
+        working-directory: backend
+        run: |
+          npx tsx src/server.ts > ../backend.log 2>&1 &
+          npx --yes wait-on@8.0.3 --timeout 60000 http-get://localhost:4000/api/health
+
+      - name: Frontend — установка и браузер Playwright
+        working-directory: frontend
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      # dev-сервер на :3000 Playwright поднимает сам (playwright.config.ts).
+      - name: Playwright
+        working-directory: frontend
+        run: npm run test:e2e
+
+      - name: Лог backend
+        if: failure()
+        run: cat backend.log
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: frontend/test-results
+          retention-days: 7
