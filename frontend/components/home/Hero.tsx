@@ -8,13 +8,7 @@ import Image from "next/image";
 export function Hero() {
   return (
     <section className="relative flex flex-col items-center gap-24 overflow-hidden px-24 py-64 text-center sm:py-140">
-      <Image
-        src="/hero-banner.avif"
-        alt=""
-        fill
-        priority
-        className="object-cover object-[80%]"
-      />
+      <Image src="/hero-banner.avif" alt="" fill priority className="object-cover object-[80%]" />
       <div className="absolute inset-0 bg-amber-800/20" />
 
       <h1 className="relative max-w-[800px] text-left font-lunar text-heading leading-[1.2] tracking-heading text-canvas-white sm:text-heading-lg sm:tracking-heading-lg">

@@ -24,13 +24,11 @@ export async function mergeGuestCartIntoServer(): Promise<string[]> {
     }),
   });
 
-  useCartStore
-    .getState()
-    .replaceItems(
-      result.items.map((item) => ({
-        product: adaptProduct(item.product),
-        quantity: item.quantity,
-      })),
-    );
+  useCartStore.getState().replaceItems(
+    result.items.map((item) => ({
+      product: adaptProduct(item.product),
+      quantity: item.quantity,
+    })),
+  );
   return result.skipped;
 }

@@ -1,9 +1,10 @@
 name: CI
 
 # Срабатывает на пуш в любую ветку. Три независимых job'а: backend
-# (lint + typecheck + Vitest на реальном Postgres), frontend (lint +
-# typecheck + Vitest) и e2e (Playwright поверх живого backend с засеянной
-# БД — каталог на главной грузится с API, id `candles-1` берутся из seed).
+# (lint + prettier + typecheck + Vitest на реальном Postgres), frontend
+# (lint + prettier + typecheck + Vitest) и e2e (Playwright поверх живого
+# backend с засеянной БД — каталог на главной грузится с API, id
+# `candles-1` берутся из seed).
 on:
   push:
     branches: ["**"]
@@ -52,6 +53,7 @@ jobs:
       # src/generated не в git — без клиента не пройдут ни линт, ни tsc.
       - run: npm run prisma:generate
       - run: npm run lint
+      - run: npm run format:check
       - run: npx tsc --noEmit
       # Интеграционные тесты сами создают базу cozy_home_test и
       # накатывают миграции (test/global-setup.ts).
@@ -72,6 +74,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - run: npm ci
       - run: npm run lint
+      - run: npm run format:check
       - run: npx tsc --noEmit
       - run: npm test
 
