@@ -69,7 +69,10 @@ test.describe("Корзина", () => {
     const total = page.getByTestId("cart-total");
     await expect(total).toHaveText(`${CANDLE.price + DIFFUSER.price} грн`);
 
-    await page.getByTestId(`cart-item-${CANDLE.id}`).getByRole("button", { name: "Удалить" }).click();
+    await page
+      .getByTestId(`cart-item-${CANDLE.id}`)
+      .getByRole("button", { name: "Удалить" })
+      .click();
     await expect(page.getByTestId(`cart-item-${CANDLE.id}`)).toHaveCount(0);
     await expect(total).toHaveText(`${DIFFUSER.price} грн`);
 

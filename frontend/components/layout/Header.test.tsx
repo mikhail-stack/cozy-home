@@ -55,10 +55,9 @@ describe("Header", () => {
     expect(screen.getByText("Войти")).toBeInTheDocument();
 
     act(() => {
-      useAuthStore.getState().setSession(
-        { id: "1", name: "Анна Коваленко", email: "a@a.com", role: "user" },
-        "token",
-      );
+      useAuthStore
+        .getState()
+        .setSession({ id: "1", name: "Анна Коваленко", email: "a@a.com", role: "user" }, "token");
     });
 
     expect(screen.queryByText("Войти")).not.toBeInTheDocument();
